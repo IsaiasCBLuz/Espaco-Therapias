@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import logo from '../../../assets/logo-removebg-preview.png';
 import TerapiaMultidimensional from '../../../assets/TerapiaMultidimensional.jpg';
@@ -66,6 +66,10 @@ export function Portifolio() {
       icone: "fa-solid fa-people-group",
     },
   ]);
+
+  useEffect(() => {
+    setTiposConsultas(tiposConsultas);
+  }, []);
 
   return (
     <>
