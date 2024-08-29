@@ -8,3 +8,10 @@
     box-sizing: border-box;
     -webkit-appearance: none;
 }
+
+@font-face {
+    font-family: 'Amsterdam One';
+    src: url('./fonts/amsterdam-one.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
