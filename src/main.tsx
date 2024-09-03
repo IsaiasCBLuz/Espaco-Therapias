@@ -9,7 +9,7 @@ import { Portifolio } from './pages/Client/portifolio/index.js'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Router basename='/espaco'>
+        <Router basename='/espaco/'>
             <Routes>
                 <Route path='/' element={<Portifolio/>}/>
             </Routes>
