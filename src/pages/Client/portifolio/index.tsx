@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import Dilma from '../../../assets/Dilma.jpg';
 import logo from '../../../assets/logo-removebg-preview.png';
 import TerapiaMultidimensional from '../../../assets/TerapiaMultidimensional.jpg';
 import ThetaHealing from '../../../assets/ThetaHealing.jpg';
+import ConstelacaoFamiliar from '../../../assets/ConstelacaoFamiliar.jpg';
+import Psicoterapia from '../../../assets/Psicoterapia.jpg';
+import Psicogenealogia from '../../../assets/Psicogenealogia.jpg';
 
 export function Portifolio() {
-  const [tiposConsultas, setTiposConsultas] = React.useState([
+  const [tiposConsultas, setTiposConsultas] = useState([
     {
       id: 1,
       nome: 'Terapia Multidimensional',
@@ -38,7 +42,7 @@ export function Portifolio() {
         Por meio dessa técnica, é possível trazer à luz padrões repetitivos e traumas herdados, oferecendo uma nova perspectiva 
         para a cura e reconciliação com o passado. Ao observar essas dinâmicas, muitas vezes inconscientes, você pode libertar-se 
         de pesos emocionais que não pertencem a você, promovendo uma sensação de alívio e renovação nas relações familiares.`,
-      imagem: 'https://placehold.co/500x600',
+      imagem: ConstelacaoFamiliar,
       icone: "fa-solid fa-hands-holding-child",
     },
     {
@@ -50,7 +54,7 @@ export function Portifolio() {
         e estruturada. Através desse processo, você desenvolve uma compreensão mais profunda de si mesmo, aprende a 
         lidar melhor com os desafios da vida e constrói um caminho para um bem-estar mental duradouro. A psicoterapia 
         é um espaço de acolhimento onde cada sessão é uma oportunidade para crescer e se transformar.`,
-      imagem: 'https://placehold.co/500x600',
+      imagem: Psicoterapia,
       icone: "fa-solid fa-clipboard-user",
     },
     {
@@ -62,7 +66,7 @@ export function Portifolio() {
         presentes em sua vida. Ao compreender esses legados familiares, você tem a oportunidade de quebrar ciclos 
         negativos e ressignificar sua história pessoal. Essa técnica oferece uma visão profunda das conexões familiares, 
         permitindo que você encontre liberdade e autenticidade ao se libertar de vínculos invisíveis com o passado.`,
-      imagem: 'https://placehold.co/500x600',
+      imagem: Psicogenealogia,
       icone: "fa-solid fa-people-group",
     },
   ]);
@@ -73,7 +77,7 @@ export function Portifolio() {
 
   return (
     <>
-      <header className="bg-tostado_claro w-full flex items-center px-8 py-4">
+      <header className="bg-tostado_claro w-full flex items-center px-8 py-4 fixed shadow-lg">
         <div className="w-36 h-36 mr-4">
           <img src={logo} alt="logo" className="object-contain w-full h-full" />
         </div>
@@ -83,10 +87,11 @@ export function Portifolio() {
       </header>
 
       <main className="bg-creme w-full h-screen flex flex-col items-center">
-        <section className="bg-tostado_claro w-11/12 max-w-6xl p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg">
+        {/* First Impression */}
+        <section className="bg-tostado_claro w-11/12 max-w-6xl p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg mt-52">
           <div className="border-4 border-[#C6A850] w-full lg:w-1/2 h-[60vh] lg:h-auto overflow-hidden rounded-lg">
             <img
-              src="https://placehold.co/500x600"
+              src={Dilma}
               alt="Dilma"
               className="object-cover w-full h-full"
             />
@@ -117,6 +122,7 @@ export function Portifolio() {
             </p>
           </div>
         </section>
+        {/* About */}
         <section className="w-full p-12 bg-[url('/src/assets/about-me-section.png')] ">
           <div className='flex flex-col'>
             <div>
@@ -135,7 +141,8 @@ export function Portifolio() {
             </div>
           </div>
         </section>
-        <section className='w-full flex flex-col mt-16'>
+        {/* Services */}
+        <section className='w-full flex flex-col pt-16 bg-creme pb-16'>
           <div className='flex flex-col gap-16'>
             <div>
               <h2 className='text-tostado_claro text-5xl font-bold font-dancing text-center'>Tipos de Consultas</h2>
@@ -143,7 +150,7 @@ export function Portifolio() {
             {tiposConsultas.map((tipoConsulta, index) => (
               <div id={tipoConsulta.id.toString()} className={`w-[75%] bg-azul p-8 flex flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
                 <div className='w-[40%] h-[50vh]'>
-                  <img src={tipoConsulta.imagem} alt="Dilma" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-2xl" />
+                  <img src={tipoConsulta.imagem} alt="colsulta" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-2xl" />
                 </div>
                 <div className='w-[60%] h-[80%] my-auto'>
                   <h3 className='text-3xl font-bold font-dancing'>{tipoConsulta.nome}</h3>
@@ -155,19 +162,39 @@ export function Portifolio() {
             ))}
           </div>
         </section>
-        <section className='mt-16'>
-          <div>
-            <h2 className='text-black text-5xl font-bold font-dancing'>Depoimentos</h2>
+        {/* Scheduler */}
+        <section className="pt-16 bg-tostado_claro w-full flex flex-col items-center pb-16">
+          <div className="mb-8">
+            <h2 className="text-castanho_rosado text-6xl font-bold font-dancing text-center leading-tight">
+              Agende a sua primeira conversa
+            </h2>
           </div>
-          <div>
-            <div>
-              <p>Depoimento 1</p>
-            </div>
-            <div>
-              <p>Depoimento 2</p>
-            </div>
-            <div>
-              <p>Depoimento 3</p>
+          <div className="text-center max-w-2xl">
+            <p className="text-2xl font-spectral text-castanho_claro mb-4">
+              Interessado(a) em um atendimento personalizado?
+            </p>
+            <p className="text-2xl font-spectral text-castanho_claro mb-8">
+              Agende a sua consulta agora mesmo e dê o primeiro passo para seu bem-estar emocional.
+            </p>
+            <button className="bg-castanho_rosado text-creme font-bold py-3 px-8 rounded-full hover:bg-castanho_claro transition duration-300 flex flex-row items-center mx-auto">
+              <i className="fa-solid fa-calendar-check"></i>
+              <p className='ms-2'>Agendar Consulta</p>
+            </button>
+          </div>
+        </section>
+        {/* Testimonials */}
+        <section className="bg-creme w-full flex flex-col items-center py-16">
+          <div className="mb-8">
+            <h2 className="text-creme text-6xl font-bold font-dancing text-center leading-tight">
+              Depoimentos
+            </h2>
+          </div>
+          <div className="text-center max-w-2xl">
+            <p className="text-2xl font-spectral text-castanho_claro mb-4">
+              Veja o que os clientes têm a dizer sobre o atendimento.
+            </p>
+            <div className="flex flex-col gap-8">
+              
             </div>
           </div>
         </section>
