@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import Dilma from '../../../assets/Dilma.jpg';
 import logo from '../../../assets/logo-removebg-preview.png';
@@ -84,11 +84,20 @@ export function Portifolio() {
         <h1 className="text-4xl font-bold font-amsterdam text-creme">
           Espaço Therapias Multidimensional
         </h1>
+        <div className='ms-auto'>
+          <nav className="flex gap-4">
+            <a href="#PrimeiraImpressao" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Início</a>
+            <a href="#Sobre" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Sobre</a>
+            <a href="#Servicos" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Serviços</a>
+            <a href="#Agenda" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Agenda</a>
+            <a href="#Avaliacoes" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Avaliações</a>
+          </nav>
+        </div>
       </header>
 
       <main className="bg-creme w-full h-screen flex flex-col items-center">
-        {/* First Impression */}
-        <section className="bg-tostado_claro w-11/12 max-w-6xl p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg mt-52">
+        {/* Primeira Impressao */}
+        <section id='PrimeiraImpressao' className="bg-tostado_claro w-11/12 max-w-6xl p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg mt-52">
           <div className="border-4 border-[#C6A850] w-full lg:w-1/2 h-[60vh] lg:h-auto overflow-hidden rounded-lg">
             <img
               src={Dilma}
@@ -108,10 +117,18 @@ export function Portifolio() {
               <div className='grid grid-cols-6 gap-4'>
                 {tiposConsultas.map((tipoConsulta) => (
                   <div className={`col-span-3 flex flex-row items-end gap-1 hover:cursor-pointer`}>
-                    <div className='flex flex-row items-end border-b-2 border-black gap-1'>
+                    <a href={'#Servico' + tipoConsulta.id.toString()} 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const section = document.querySelector('#Servico' + tipoConsulta.id.toString());
+                        const offset = 200; // Defina o deslocamento desejado
+                        const sectionTop = section?.getBoundingClientRect()?.top ?? 0 + window.scrollY; // Posição da seção em relação ao topo
+                        window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); // Rolagem suave com deslocamento
+                      }}
+                      className='flex flex-row items-end border-b-2 border-black gap-1'>
                       <i className={`${tipoConsulta.icone} text-xl`}></i>
                       <p>{tipoConsulta.nome}</p>
-                    </div>
+                    </a>
                     <i className="fa-solid fa-caret-right text-base"></i>
                   </div>
                 ))}
@@ -122,8 +139,8 @@ export function Portifolio() {
             </p>
           </div>
         </section>
-        {/* About */}
-        <section className="w-full p-12 bg-[url('/src/assets/about-me-section.png')] ">
+        {/* Sobre */}
+        <section id='Sobre' className="w-full p-12 bg-[url('/src/assets/about-me-section.png')] ">
           <div className='flex flex-col'>
             <div>
               <h2 className='text-creme text-5xl font-bold font-dancing'>Que tal me conhecer?</h2>
@@ -141,14 +158,14 @@ export function Portifolio() {
             </div>
           </div>
         </section>
-        {/* Services */}
-        <section className='w-full flex flex-col pt-16 bg-creme pb-16'>
+        {/* Servicos */}
+        <section id='Servicos' className='w-full flex flex-col pt-16 bg-creme pb-16'>
           <div className='flex flex-col gap-16'>
             <div>
               <h2 className='text-tostado_claro text-5xl font-bold font-dancing text-center'>Tipos de Consultas</h2>
             </div>
             {tiposConsultas.map((tipoConsulta, index) => (
-              <div id={tipoConsulta.id.toString()} className={`w-[75%] bg-azul p-8 flex flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
+              <div id={'Servico'+ tipoConsulta.id.toString()} className={`w-[75%] bg-azul p-8 flex flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
                 <div className='w-[40%] h-[50vh]'>
                   <img src={tipoConsulta.imagem} alt="colsulta" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-2xl" />
                 </div>
@@ -162,7 +179,7 @@ export function Portifolio() {
             ))}
           </div>
         </section>
-        {/* Scheduler */}
+        {/* Agenda */}
         <section className="pt-16 bg-tostado_claro w-full flex flex-col items-center pb-16">
           <div className="mb-8">
             <h2 className="text-castanho_rosado text-6xl font-bold font-dancing text-center leading-tight">
@@ -182,7 +199,7 @@ export function Portifolio() {
             </button>
           </div>
         </section>
-        {/* Testimonials */}
+        {/* Avaliacoes */}
         <section className="bg-creme w-full flex flex-col items-center py-16">
           <div className="mb-8">
             <h2 className="text-creme text-6xl font-bold font-dancing text-center leading-tight">
@@ -198,11 +215,10 @@ export function Portifolio() {
             </div>
           </div>
         </section>
+        <footer className="bg-tostado_claro w-full h-12 flex items-center justify-center z-10">
+          <p className="text-creme font-bold">© 2024 Espaço Therapias Multidimensional</p>
+        </footer>
       </main>
-
-      {/* <footer className="bg-blue-400 w-full h-12 flex items-center justify-center z-10">
-        <p className="text-creme font-bold">© 2024 Espaço Therapias Multidimensional</p>
-      </footer> */}
     </>
   );
 }
