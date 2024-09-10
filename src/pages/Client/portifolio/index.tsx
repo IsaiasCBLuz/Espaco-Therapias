@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Dilma from '../../../assets/Dilma.jpg';
 import logo from '../../../assets/logo-removebg-preview.png';
@@ -82,15 +82,30 @@ export function Portifolio() {
           <img src={logo} alt="logo" className="object-contain w-full h-full" />
         </div>
         <h1 className="text-4xl font-bold font-amsterdam text-creme">
-          Espaço Therapias Multidimensional
+          Espaço Therapias
         </h1>
         <div className='ms-auto'>
           <nav className="flex gap-4">
-            <a href="#PrimeiraImpressao" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Início</a>
-            <a href="#Sobre" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Sobre</a>
-            <a href="#Servicos" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Serviços</a>
-            <a href="#Agenda" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Agenda</a>
-            <a href="#Avaliacoes" className="text-creme text-xl underline hover:text-castanho_rosado hover:font-bold">Avaliações</a>
+            <a href="#PrimeiraImpressao" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+              <i className="fa-solid fa-home"></i>
+              <p>Inicio</p>
+            </a>
+            <a href="#Sobre" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+              <i className="fa-solid fa-user"></i>
+              <p>Sobre</p>
+            </a>
+            <a href="#Servicos" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+              <i className="fa-solid fa-hands-praying"></i>
+              <p>Serviços</p>
+            </a>
+            <a href="/espaco/agendamento" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+              <i className="fa-solid fa-calendar-check"></i>
+              <p>Agendamento</p>
+            </a>
+            <a href="#Avaliacoes" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+              <i className="fa-solid fa-star"></i>
+              <p>Avaliações</p>
+            </a>
           </nav>
         </div>
       </header>
@@ -193,10 +208,10 @@ export function Portifolio() {
             <p className="text-2xl font-spectral text-castanho_claro mb-8">
               Agende a sua consulta agora mesmo e dê o primeiro passo para seu bem-estar emocional.
             </p>
-            <button className="bg-castanho_rosado text-creme font-bold py-3 px-8 rounded-full hover:bg-castanho_claro transition duration-300 flex flex-row items-center mx-auto">
+            <a href='/espaco/agendamento' className="bg-castanho_rosado w-1/3 text-creme font-bold py-3 px-8 rounded-full hover:bg-castanho_claro transition duration-300 flex flex-row items-center mx-auto">
               <i className="fa-solid fa-calendar-check"></i>
               <p className='ms-2'>Agendar Consulta</p>
-            </button>
+            </a>
           </div>
         </section>
         {/* Avaliacoes */}
@@ -215,8 +230,11 @@ export function Portifolio() {
             </div>
           </div>
         </section>
-        <footer className="bg-tostado_claro w-full h-12 flex items-center justify-center z-10">
-          <p className="text-creme font-bold">© 2024 Espaço Therapias Multidimensional</p>
+        <footer className="bg-tostado_claro w-full py-8 flex flex-col items-center justify-center z-10 text-center">
+          <p className="text-gray-700">Administração</p>
+          <p className="text-creme font-bold text-lg mt-2">© 2024 Espaço Therapias Multidimensional</p>
+          <p className="text-gray-700 mt-2">Desenvolvido por:</p>
+          <p className="text-creme mt-1 font-bold">...</p>
         </footer>
       </main>
     </>
