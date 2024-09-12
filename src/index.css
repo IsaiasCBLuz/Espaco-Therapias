@@ -49,3 +49,28 @@
     border-color: rgb(168 90 61);
     color: var(--fc-button-text-color);
 }
+
+.animation-expand {
+    animation: expand .5s ease-in-out;
+}
+
+.animation-reduce {
+    animation: reduce .5s ease-in-out;
+}
+
+@keyframes expand {
+    from {
+        width: 25%;
+    }
+    to {
+        width: 100%;
+    }
+}
+@keyframes reduce {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 25%;
+    }
+}
