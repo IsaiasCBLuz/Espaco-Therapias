@@ -117,36 +117,36 @@ export function Agendamento() {
 
   return (
     <>
-      <header className="bg-tostado_claro w-full flex items-center px-8 py-4 shadow-lg">
-        <div className="w-36 h-36 mr-4">
+      <header className="bg-tostado_claro w-full flex items-center px-8 py-1 shadow-lg">
+        <div className="w-20 h-20 mr-4">
           <img src={logo} alt="logo" className="object-contain w-full h-full" />
         </div>
-        <h1 className="text-4xl font-bold font-amsterdam text-creme">
+        <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado">
           Espaço Therapias
         </h1>
         <div className='ms-auto'>
           <nav className="flex gap-4">
-            <a href="/" className="text-creme text-xl border-b-2 border-creme flex flex-row items-center gap-2 hover:text-castanho_rosado hover:font-bold hover:border-castanho_rosado">
-              <i className="fa-solid fa-home"></i>
-              <p>Home</p>
+            <a href="/" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:font-bold hover:border-castanho_rosado">
+              <i className="fa-solid fa-home text-sm"></i>
+              <p className='text-sm'>Home</p>
             </a>
           </nav>
         </div>
       </header>
 
       <main className='w-full h-screen bg-creme'>
-        <div className='py-24'>
-          <h1 className="text-4xl font-bold font-amsterdam text-castanho_rosado text-center">Agende sua primeira conversa!</h1>
+        <div className='py-16'>
+          <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado text-center">Agende sua primeira conversa!</h1>
         </div>
         <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8'>
           <div className='w-[40%] pe-12 pt-24'>
-            <p className="text-3xl font-bold text-creme font-dancing mb-12">Suas Infos</p>
+            <p className="text-2xl font-bold text-creme font-dancing mb-8">Suas Infos</p>
             <form className='flex flex-col'>
               <div className='w-full mb-2'>
                 <input 
                   type='text' 
                   placeholder='Nome' 
-                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro'
+                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro text-sm'
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                 />
@@ -161,7 +161,7 @@ export function Agendamento() {
                 <input 
                   type='email' 
                   placeholder='Email' 
-                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro'
+                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro text-sm'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -176,7 +176,7 @@ export function Agendamento() {
                 <input 
                   type='text' 
                   placeholder='Telefone' 
-                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro'
+                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro text-sm'
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                 />
@@ -192,7 +192,7 @@ export function Agendamento() {
                   <input 
                     type='text' 
                     placeholder='Data' 
-                    className='bg-creme rounded-3xl p-3 border border-gray-300 pl-10 cursor-not-allowed w-full' 
+                    className='bg-creme rounded-3xl p-3 border border-gray-300 pl-10 cursor-not-allowed w-full text-sm' 
                     disabled 
                     value={formatedData}
                   />
@@ -200,7 +200,7 @@ export function Agendamento() {
                 </div>
               </div>
               <button 
-                className={`rounded-3xl p-3 text-creme font-bold transition duration-200 ${sendDisabled ? 'bg-tostado_claro' : 'bg-[#A85A3D] hover:border-2 border-tostado_claro'}`} 
+                className={`rounded-3xl p-3 text-creme font-bold transition duration-200 text-sm ${sendDisabled ? 'bg-tostado_claro' : 'bg-[#A85A3D] hover:border-2 border-tostado_claro'}`} 
                 disabled={sendDisabled}
                 onClick={handleAgendar}
               >
@@ -243,7 +243,7 @@ export function Agendamento() {
                 }}
                 locale={ptBrLocale}
                 eventColor='#BD7350'
-                eventClick={handleEventClick} // Adicione esta linha
+                eventClick={handleEventClick}
               />
             }
           </div>
