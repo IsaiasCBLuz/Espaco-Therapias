@@ -6,6 +6,7 @@ export function Clientes() {
         {
             id: 1,
             expanded: false,
+            editing: false,
             data: "2022-01-01",
             dataF: "01/01/2022",
             hora: "09:00",
@@ -22,6 +23,7 @@ export function Clientes() {
         {
             id: 2,
             expanded: false,
+            editing: false,
             data: "2022-01-02",
             dataF: "02/01/2022",
             hora: "10:00",
@@ -150,6 +152,11 @@ export function Clientes() {
     const [descricaoForModal, setDescricaoForModal] = useState('');
     const [tipoForModal, setTipoForModal] = useState(false);
     const [editingConsulta, setEditingConsulta] = useState(false);
+    const [editingInfos, setEditingInfos] = useState(false);
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [recorrencia, setRecorrencia] = useState('');
 
     function handleExpand(id: number) {
         // setConsultasCliente();
@@ -171,6 +178,25 @@ export function Clientes() {
       setDescricaoForModal(descricao);
       setTipoForModal(tipo);
       setConsultaDescModal(true);
+    }
+
+    function handleEdit(id: number) {
+      setClientes(
+        clientes.map((cliente) => {
+          if (cliente.id === id) {
+            return {
+              ...cliente,
+              editing: !cliente.editing,
+            };
+          }
+          setNome(cliente.nome);
+          setEmail(cliente.email);
+          setTelefone(cliente.telefone);
+          setRecorrencia(cliente.recorrencia);
+          return cliente;
+        })
+      );
+      setEditingInfos(true);
     }
 
     useEffect(() => {
@@ -200,7 +226,8 @@ export function Clientes() {
                         key={cliente.id}
                   >
                     <div className="flex items-center border-b border-creme pb-1 justify-end gap-3">
-                      <i className="fas fa-pen text-creme cursor-pointer"></i>
+                      <i className={`fas fa-${cliente.editing ? 'check' : 'pen'} text-creme cursor-pointer`}
+                        onClick={() => handleEdit(cliente.id)}></i>
                       <i className={`fas fa-${cliente.expanded ? 'minimize' : 'maximize'} text-creme cursor-pointer`}
                         onClick={() => handleExpand(cliente.id)}></i>
                     </div>
@@ -214,15 +241,33 @@ export function Clientes() {
                           <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-1">
                               <i className="fas fa-at text-creme"></i>
-                              <p className="text-creme text-sm">{cliente.email}</p>
+                              {cliente.editing ?
+                                <input type='text' className='text-castanho_rosado bg-castanho_claro p-1 rounded-md border border-creme'
+                                       value={email} onChange={(e) => setEmail(e.target.value)}
+                                />
+                                :
+                                <p className="text-creme text-sm">{cliente.email}</p>
+                              }
                             </div>
                             <div className="flex items-center gap-1">
                               <i className="fas fa-phone text-creme"></i>
-                              <p className="text-creme text-sm">{cliente.telefone}</p>
+                              {cliente.editing ?
+                                <input type='text' className='text-castanho_rosado bg-castanho_claro p-1 rounded-md border border-creme'
+                                       value={telefone} onChange={(e) => setTelefone(e.target.value)}
+                                />
+                                :
+                                <p className="text-creme text-sm">{cliente.telefone}</p>
+                              }
                             </div>
                             <div className="flex items-center gap-1">
                               <i className="fas fa-repeat text-creme"></i>
-                              <p className="text-creme text-sm">{cliente.recorrencia}</p>
+                              {cliente.editing ?
+                                <input type='text' className='text-castanho_rosado bg-castanho_claro p-1 rounded-md border border-creme'
+                                       value={recorrencia} onChange={(e) => setRecorrencia(e.target.value)}
+                                />
+                                :
+                                <p className="text-creme text-sm">{cliente.recorrencia}</p>
+                              }
                             </div>
                           </div>
                           <div className="mt-2">
@@ -290,9 +335,8 @@ export function Clientes() {
                                   {histConsultas.slice(0,12).map((consulta, index) => (
                                     <div 
                                       className='flex flex-col gap-2 border border-creme px-2 py-2 rounded-lg shadow-xl shadow-[rgba(0,0,0,0.2)]
-                                                  cursor-pointer' 
+                                                  cursor-default' 
                                       key={index}
-                                      onClick={() => handleOpenModal(consulta.dataF, consulta.descricao, false)}
                                     >
                                       <p className='text-creme text-sm'>{consulta.dataF}</p>
                                     </div>
