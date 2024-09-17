@@ -314,8 +314,8 @@ export function Clientes() {
             </section>
           </main>
           {/* Modal da descrição da consulta */}
-          <div className={`${consutaDescModal ? 'flex' : 'hidden'} flex-row w-full h-full absolute z-10 bg-[rgba(0,0,0,0.7)] top-0 overflow-hidden`}>
-            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4'>
+          <div className={`${consutaDescModal ? 'flex' : 'hidden'} fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] justify-center items-center`}>
+            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-2 border-tostado_claro p-4'>
               <div className='flex flex-row'>
                 <p id='ModalConsultaTitle' className='text-xl font-spectral'>{consultaForModal}</p>
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'
