@@ -11,11 +11,11 @@ export default function MySpaceNavbar() {
             </h1>
             <div className='ms-auto'>
               <nav className="flex gap-4">
-                  <a className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+                  <a href='/my-space/clientes' className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
                       <i className="fa-solid fa-people-group text-lg"></i>
                       <p className='text-sm'>Meus Cliente</p>
                   </a>
-                  <a className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+                  <a href='/my-space/agenda' className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
                       <i className="fa-solid fa-calendar-days text-lg"></i>
                       <p className='text-sm'>Agenda</p>
                   </a>

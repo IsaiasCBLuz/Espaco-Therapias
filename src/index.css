@@ -50,6 +50,45 @@
     color: var(--fc-button-text-color);
 }
 
+.fc .fc-toolbar-title {
+    font-size: 1.5em;
+    margin: 0px;
+}
+
+.fc .fc-button {
+    border: 1px solid transparent;
+    border-radius: 0.25em;
+    display: inline-block;
+    font-size: .8em;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.4em 0.65em;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.fc-daygrid-event {
+    border-radius: 3px;
+    font-size: 10px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.fc-daygrid-event-dot {
+    border: calc(var(--fc-daygrid-event-dot-width) / 2) solid var(--fc-event-border-color);
+    border-radius: calc(var(--fc-daygrid-event-dot-width) / 2);
+    box-sizing: content-box;
+    height: 0px;
+    margin: 0px 4px;
+    width: 0px;
+}
+
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 5em;
+    position: relative;
+}
+
 .animation-expand {
     animation: expand .5s ease-in-out;
 }
