@@ -1,152 +1,27 @@
 import { useEffect, useState } from 'react';
 import MySpaceNavbar from '../../../components/mySpaceNavbar';
 
+interface Clinte {
+  id: number;
+  nome: string;
+  email: string;
+  telefone: string;
+  recorrencia: string;
+  expanded: boolean;
+  editing: boolean;
+  proximasConsultas: string[];
+}
+
+interface Consulta {
+  titulo: string;
+  texto: string;
+  data: string;
+}
+
 export function Clientes() {
-    const [clientes, setClientes] = useState([
-        {
-            id: 1,
-            expanded: false,
-            editing: false,
-            data: "2022-01-01",
-            dataF: "01/01/2022",
-            hora: "09:00",
-            nome: "John Doe",
-            email: "johndoe@example.com",
-            telefone: "123456789",
-            recorrencia: "Semanal",
-            proximasConsultas: [
-                { data: "2022-01-08", dataF: "08/01/22", hora: "09:00" },
-                { data: "2022-01-15", dataF: "15/01/22", hora: "09:00" },
-                { data: "2022-01-22", dataF: "22/01/22", hora: "09:00" },
-            ],
-        },
-        {
-            id: 2,
-            expanded: false,
-            editing: false,
-            data: "2022-01-02",
-            dataF: "02/01/2022",
-            hora: "10:00",
-            nome: "Jane Doe",
-            email: "Jane@gmail.com",
-            telefone: "987654321",
-            recorrencia: "Mensal",
-            proximasConsultas: [
-                { data: "2022-02-02", dataF: "02/02/22", hora: "10:00" },
-                { data: "2022-03-02", dataF: "02/03/22", hora: "10:00" },
-                { data: "2022-04-02", dataF: "02/04/22", hora: "10:00" },
-            ],
-        },
-    ]);
-    const [ultimasConsultasCliente, setUltimasConsultasCliente] = useState([
-        {
-            data: "2022-01-01",
-            dataF: "01/01/2022 às 09:00",
-            descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. ",
-        },
-        {
-            data: "2022-01-08",
-            dataF: "08/01/2022 às 09:00",
-            descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.",
-        },
-        {
-            data: "2022-01-15",
-            dataF: "15/01/2022 às 09:00",
-            descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies. Nullam nec purus nec nunc ultricies ultricies.",
-        }
-    ]);
-    const [histConsultas, setHistConsultas] = useState([
-      {
-          data: "2022-01-01",
-          dataF: "01/01/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies.",
-      },
-      {
-          data: "2022-01-08",
-          dataF: "08/01/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies.",
-      },
-      {
-          data: "2022-01-15",
-          dataF: "15/01/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies.",
-      },
-      {
-          data: "2022-01-22",
-          dataF: "22/01/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies.",
-      },
-      {
-          data: "2022-01-29",
-          dataF: "29/01/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-02-05",
-          dataF: "05/02/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-02-12",
-          dataF: "12/02/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-02-19",
-          dataF: "19/02/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-02-26",
-          dataF: "26/02/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-03-05",
-          dataF: "05/03/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-03-12",
-          dataF: "12/03/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-03-19",
-          dataF: "19/03/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-03-26",
-          dataF: "26/03/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-04-02",
-          dataF: "02/04/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-04-09",
-          dataF: "09/04/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-04-16",
-          dataF: "16/04/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-04-23",
-          dataF: "23/04/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-      {
-          data: "2022-04-30",
-          dataF: "30/04/2022",
-          descricao: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies",
-      },
-    ]);
+    const [clientes, setClientes] = useState<Clinte[]>([]);
+    const [ultimasConsultasCliente, setUltimasConsultasCliente] = useState<Consulta[]>([]);
+    const [histConsultas, setHistConsultas] = useState<Consulta[]>([]);
     const [consutaDescModal, setConsultaDescModal] = useState(false);
     const [consultaForModal, setConsultaForModal] = useState('');
     const [descricaoForModal, setDescricaoForModal] = useState('');
@@ -157,9 +32,10 @@ export function Clientes() {
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
     const [recorrencia, setRecorrencia] = useState('');
+    const [message, setMessage] = useState({message: '', type: ''});
 
     function handleExpand(id: number) {
-        // setConsultasCliente();
+        getConsultasCliente(id)
         setClientes(
           clientes.map((cliente) => {
             if (cliente.id === id) {
@@ -181,22 +57,67 @@ export function Clientes() {
     }
 
     function handleEdit(id: number) {
+      console.log(id)
       setClientes(
         clientes.map((cliente) => {
           if (cliente.id === id) {
+            if (!cliente.editing) {
+              setNome(cliente.nome);
+              setEmail(cliente.email);
+              setTelefone(cliente.telefone);
+              setRecorrencia(cliente.recorrencia);
+            }
             return {
               ...cliente,
               editing: !cliente.editing,
             };
           }
-          setNome(cliente.nome);
-          setEmail(cliente.email);
-          setTelefone(cliente.telefone);
-          setRecorrencia(cliente.recorrencia);
           return cliente;
         })
       );
       setEditingInfos(true);
+    }
+
+    const getCliente = () => {
+      fetch(import.meta.env.VITE_API+"/cliente/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      })
+        .then((response) => {
+          if (response.status == 200)
+            return response.json()
+          else
+            setMessage({"message":"Nenhum registro encontrado", "type":"danger"})
+        })
+        .then((data) => {
+          console.log(data)
+          setClientes(data.body)
+        })
+    }
+
+    const getConsultasCliente = (id: number) => {
+      console.log(id)
+      fetch(import.meta.env.VITE_API+"/cliente/consultas/"+ id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      })
+        .then((response) => {
+          if (response.status == 200)
+            return response.json()
+          else
+            setMessage({"message":"Nenhum registro encontrado", "type":"danger"})
+        })
+        .then((data) => {
+          console.log(data)
+          setUltimasConsultasCliente(data.body.recentes)
+          setHistConsultas(data.body.realizadas)
+        })
     }
 
     useEffect(() => {
@@ -210,6 +131,10 @@ export function Clientes() {
       };
     }, [consutaDescModal]);
 
+    useEffect(() => {
+      getCliente()
+    }, []);
+
     return (
         <>
           <MySpaceNavbar />
@@ -219,26 +144,30 @@ export function Clientes() {
               Clientes
             </h1>
             <section className="w-full">
-              <div className="flex flex-row flex-wrap gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {clientes.map((cliente) => (
                   <div className={`bg-castanho_rosado p-4 rounded-lg shadow-lg hover:shadow-2xl
-                                  ${cliente.expanded ? 'animation-expand w-full flex flex-col' : 'animation-reduce'}`}
+                                  ${cliente.expanded ? 'col-span-4' : ''}`}
                         key={cliente.id}
                   >
                     <div className="flex items-center border-b border-creme pb-1 justify-end gap-3">
                       <i className={`fas fa-${cliente.editing ? 'check' : 'pen'} text-creme cursor-pointer`}
                         onClick={() => handleEdit(cliente.id)}></i>
-                      <i className={`fas fa-${cliente.expanded ? 'minimize' : 'maximize'} text-creme cursor-pointer`}
+                      <i className={`fas ${window.innerWidth < 720 ? 'fa-arrows-rotate' : cliente.expanded ? 'fa-minimize' : 'fa-maximize'} text-creme cursor-pointer`}
                         onClick={() => handleExpand(cliente.id)}></i>
                     </div>
                     <div className='grid grid-cols-4 gap-4'>
-                      <div className={`${cliente.expanded ? 'col-span-1' : 'col-span-full'}`}>
+                      <div className={`${cliente.expanded ? 'col-span-full md:col-span-1' : 'col-span-full'}`}>
                           <div className="mt-2">
-                            <p className="text-creme text-lg font-bold mb-1">
-                              {cliente.nome}
-                            </p>
+                            {cliente.editing ?
+                              <input type='text' className='text-castanho_rosado bg-castanho_claro p-1 rounded-md border border-creme mb-2'
+                                     value={nome} onChange={(e) => setNome(e.target.value)}
+                              />
+                              :
+                              <p className="text-creme text-xl font-bold mb-2">{cliente.nome}</p>
+                            }
                           </div>
-                          <div className="flex flex-col gap-2">
+                          <div className={`flex ${cliente.editing ? 'flex-col' : 'flex-row'} gap-3 md:flex-col md:gap-2`}>
                             <div className="flex items-center gap-1">
                               <i className="fas fa-at text-creme"></i>
                               {cliente.editing ?
@@ -285,20 +214,11 @@ export function Clientes() {
                             >
                               {cliente.proximasConsultas.map((consulta, index) => (
                                 <div
-                                  className={`bg-castanho_claro p-2 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 border border-creme ${
-                                    cliente.proximasConsultas.length === 1
-                                      ? 'col-span-3'
-                                      : cliente.proximasConsultas.length === 2
-                                      ? 'col-span-2'
-                                      : ''
-                                  }`}
+                                  className={`bg-castanho_claro p-2 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 border border-creme justify-center`}
                                   key={index}
                                 >
-                                  <p className="text-creme text-center text-sm">
-                                    {consulta.dataF}
-                                  </p>
-                                  <p className="text-creme text-center text-sm">
-                                    {consulta.hora}
+                                  <p className="text-creme text-center text-sm text-wrap w-full">
+                                    {consulta}
                                   </p>
                                 </div>
                               ))}
@@ -306,7 +226,7 @@ export function Clientes() {
                           </div>
                       </div>
                       {cliente.expanded && ultimasConsultasCliente ? 
-                      <div className='mt-4 flex flex-col col-span-3'>
+                      <div className='mt-4 flex flex-col col-span-full md:col-span-3'>
                           <p className='text-creme text-center font-bold mb-1'>Prontuário</p>
                           <div className='grid grid-cols-3 gap-2'>
                             <div className='flex flex-col col-span-1 items-center border border-creme rounded-lg pb-2'>
@@ -318,9 +238,9 @@ export function Clientes() {
                                                shadow-xl shadow-[rgba(0,0,0,0.2)] hover:scale-105 hover:shadow-2xl hover:px-3 hover:py-5 
                                                transition-transform duration-300 ease-in-out'
                                     key={index}
-                                    onClick={() => handleOpenModal(consulta.dataF, consulta.descricao, true)}
+                                    onClick={() => handleOpenModal(consulta.titulo, consulta.texto, true)}
                                   >
-                                    <p className='text-creme text-sm'>{consulta.dataF}</p>
+                                    <p className='text-creme text-sm'>{consulta.data}</p>
                                   </div>
                                 ))}
                               </div>
@@ -332,13 +252,13 @@ export function Clientes() {
                                   <i className='fas fa-caret-left text-creme cursor-pointer text-4xl'></i>
                                 </div>
                                 <div className='grid grid-cols-4 gap-4'>
-                                  {histConsultas.slice(0,12).map((consulta, index) => (
+                                  {histConsultas.slice(0,12).map((consulta: Consulta, index) => (
                                     <div 
                                       className='flex flex-col gap-2 border border-creme px-2 py-2 rounded-lg shadow-xl shadow-[rgba(0,0,0,0.2)]
                                                   cursor-default' 
                                       key={index}
                                     >
-                                      <p className='text-creme text-sm'>{consulta.dataF}</p>
+                                      <p className='text-creme text-sm'>{consulta.data}</p>
                                     </div>
                                   ))}
                                 </div>

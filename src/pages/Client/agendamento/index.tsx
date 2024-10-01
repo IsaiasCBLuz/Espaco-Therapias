@@ -118,28 +118,28 @@ export function Agendamento() {
   return (
     <>
       <header className="bg-tostado_claro w-full flex items-center px-8 py-1 shadow-lg">
-        <div className="w-20 h-20 mr-4">
+        <a className="w-20 h-20 mr-4" href='/login'>
           <img src={logo} alt="logo" className="object-contain w-full h-full" />
-        </div>
+        </a>
         <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado">
           Espaço Therapias
         </h1>
         <div className='ms-auto'>
           <nav className="flex gap-4">
-            <a href="/" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:font-bold hover:border-castanho_rosado">
-              <i className="fa-solid fa-home text-sm"></i>
-              <p className='text-sm'>Home</p>
+            <a href="/" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-1 md:gap-2 hover:text-castanho_rosado hover:font-bold hover:border-castanho_rosado">
+              <i className="fa-solid fa-chevron-left text-sm"></i>
+              <p className='text-sm'>Voltar</p>
             </a>
           </nav>
         </div>
       </header>
 
-      <main className='w-full h-screen bg-creme'>
-        <div className='py-16'>
+      <main className='w-full md:h-screen bg-creme'>
+        <div className='md:py-16 pt-32 pb-32'>
           <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado text-center">Agende sua primeira conversa!</h1>
         </div>
-        <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8'>
-          <div className='w-[40%] pe-12 pt-24'>
+        <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8 h-[60vh]'>
+          <div className='w-full md:w-[40%] pe-12 md:pt-24'>
             <p className="text-2xl font-bold text-creme font-dancing mb-8">Suas Infos</p>
             <form className='flex flex-col'>
               <div className='w-full mb-2'>
@@ -208,7 +208,7 @@ export function Agendamento() {
               </button>
             </form>
           </div>
-          <div className='w-[60%] h-[95vh] bg-creme rounded-s-3xl p-3'>
+          <div className='hidden md:block w-[60%] h-[95vh] bg-creme rounded-s-3xl p-3'>
             {openDay ? 
               <div className='flex flex-col'>
                 <i className="fa-solid fa-xmark text-red-500 text-3xl hover:text-4xl hover:cursor-pointer" onClick={() => setOpenDay(false)}></i>

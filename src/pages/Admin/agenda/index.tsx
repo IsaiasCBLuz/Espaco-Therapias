@@ -7,20 +7,7 @@ import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import MySpaceNavbar from "../../../components/mySpaceNavbar";
 
 export function Agenda() {
-  const [events, setEvents] = useState([
-    { id: 1, title: 'Rafael de Andrade', date: '2024-09-01 08:00'},
-    { id: 2, title: 'Rafael de Andrade', date: '2024-09-01 09:30'},
-    { id: 3, title: 'Rafael de Andrade', date: '2024-09-01 11:00'},
-    { id: 4, title: 'Horário Livre', date: '2024-09-01 14:00'},
-    { id: 5, title: 'Rafael de Andrade', date: '2024-09-01 15:30'},
-    { id: 6, title: 'Rafael de Andrade', date: '2024-09-01 17:00'},
-    { id: 7, title: 'Rafael de Andrade', date: '2024-09-08 08:00'},
-    { id: 8, title: 'Rafael de Andrade', date: '2024-09-08 09:30'},
-    { id: 9, title: 'Rafael de Andrade', date: '2024-09-08 11:00'},
-    { id: 10, title: 'Horário Livre', date: '2024-09-08 14:00'},
-    { id: 11, title: 'Rafael de Andrade', date: '2024-09-08 15:30'},
-    { id: 12, title: 'Rafael de Andrade', date: '2024-09-08 17:00'},
-  ]);
+  const [events, setEvents] = useState([]);
 
   const [modalAgendamentoOpen, setModalAgendamentoOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -29,26 +16,15 @@ export function Agenda() {
   const [horarioConfirmado, setHorarioConfirmado] = useState('');
   const [novoHorario, setNovoHorario] = useState(''); // Novo horário digitado pelo usuário
   const [transferiu, setTransferiu] = useState(false);
+  const [telefone, setTelefone] = useState('');
+  const [tituloSumario, setTituloSumario] = useState('');
+  const [sumario, setSumario] = useState('');
 
-  const selecionaEvento = (eventDate: string, titulo: string) => {
-    setData(eventDate);
-    const [ano, mes, dia] = eventDate.split(' ')[0].split('-');
-    const dataCorreta = new Date(parseInt(ano), parseInt(mes) - 1, parseInt(dia));
-    setDataFormatada(dataCorreta.toLocaleDateString('pt-BR') + ' às ' + eventDate.split(' ')[1]);
-    if (titulo === 'Horário Livre') {
-      setTitle('Horário Livre');
-    } else {
-      setTitle('Agendamento para ' + dataCorreta.toLocaleDateString('pt-BR') + ' às ' + eventDate.split(' ')[1] + ' - ' + titulo);
-    }
-    modalAgendamentoOpen ? setModalAgendamentoOpen(false) : setModalAgendamentoOpen(true);
+  const handleEventClick = async (info: { event: { id: number; start: string; title: string; }; }) => {
+      await sumarioConsulta(info.event.id);
   };
 
-  const handleEventClick = (info: { event: { start: string; title: string; }; }) => {
-    const eventDate = info.event.start.toISOString().split('T')[0] + ' ' + info.event.start.toTimeString().split(' ')[0];
-    selecionaEvento(eventDate, info.event.title);
-  };
-
-  const handleEventDrop = (info) => {
+  const handleEventDrop = (info: any) => {
     const novaData = info.event.startStr.split('T')[0]; // Pega a nova data
     const dataFormatada = new Date(novaData).toLocaleDateString('pt-BR');
     
@@ -70,6 +46,56 @@ export function Agenda() {
     setModalAgendamentoOpen(false);
     setTransferiu(false); // Reseta o estado de transferência
   };
+
+  const infosAgenda = (mes: number, ano: number) => {
+    const dataStart = ano + '-' + mes + '-01';
+    const dataEnd = ano + '-' + mes + '-31';
+    fetch(import.meta.env.VITE_API+`/prontuario/eventos/${dataStart}/${dataEnd}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then((data) => {
+          console.log(data.body);
+          setEvents(data.body);
+        });
+      } else {
+        return response.json();
+      }
+    }).catch((error) => {
+      console.error('Erro:', error);
+    });
+  }
+
+  const sumarioConsulta = (id: number) => {
+    console.log(id);
+    fetch(import.meta.env.VITE_API+`/prontuario/sumario/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then((data) => {
+          console.log(data.body);
+          setTitle(data.body.nome);
+          setTelefone(data.body.telefone);
+          setDataFormatada(data.body.data);
+          setTituloSumario(data.body.titulo);
+          setSumario(data.body.texto);
+          setModalAgendamentoOpen(true);
+        });
+      } else {
+        return response.json();
+      }
+    }).catch((error) => {
+      console.error('Erro:', error);
+    });
+  }
 
   return (
     <>
@@ -95,6 +121,7 @@ export function Agenda() {
               locale={ptBrLocale}
               eventColor='#BD7350'
               eventClick={handleEventClick}
+              datesSet={(info) => infosAgenda(info.start.getMonth() + 2, info.start.getFullYear())}
             />
           </div>
         </section>
@@ -132,16 +159,16 @@ export function Agenda() {
           :
           <>
             <div className='flex flex-row'>
-              <p className='font-spectral'>{title}</p>
+              <p className='font-spectral'>{title} - {dataFormatada}</p>
               <i className="fas fa-times text-tostado ml-auto cursor-pointer text-xl" onClick={() => setModalAgendamentoOpen(false)}></i>
             </div>
             <div className='flex flex-col mt-2'>
-              <p className='text-sm font-spectral'>Telefone: (11) 99999-9999</p>
+              <p className='text-sm font-spectral'>Telefone: {telefone}</p>
             </div>
             <div className='flex flex-col mt-2'>
-              <p className='text-sm font-spectral'>Última consulta:</p>
+              <p className='text-sm font-spectral'>Última consulta ({tituloSumario}):</p>
               <pre className='text-xs font-spectral overflow-y-auto h-full text-wrap max-h-60'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                {sumario}
               </pre>
             </div>
             {title === 'Horário Livre'

@@ -70,6 +70,7 @@ export function Portifolio() {
       icone: "fa-solid fa-people-group",
     },
   ]);
+  const [menuExpanded, setMenuExpanded] = useState(false);
 
   useEffect(() => {
     setTiposConsultas(tiposConsultas);
@@ -77,15 +78,22 @@ export function Portifolio() {
 
   return (
     <>
-      <header className="bg-tostado_claro w-full flex items-center px-8 py-1 fixed shadow-lg">
-        <div className="w-20 h-20 mr-4">
-          <img src={logo} alt="logo" className="object-contain w-full h-full" />
+      <header className="bg-tostado_claro w-full flex flex-col md:flex-row items-center px-8 py-1 fixed shadow-lg rounded-b-2xl">
+        <div className='flex flex-row items-center w-full md:w-1/2'>
+          <a className="w-20 h-20 mr-4" href='/login'>
+            <img src={logo} alt="logo" className="object-contain w-full h-full" />
+          </a>
+          <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado">
+            Espaço Therapias
+          </h1>
+          <div className='ms-auto'>
+            <button className="md:hidden text-2xl text-castanho_rosado" onClick={() => setMenuExpanded(!menuExpanded)}>
+              <i className={`fa-solid fa-${menuExpanded ? 'xmark' : 'bars'}`}></i>
+            </button>
+          </div>
         </div>
-        <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado">
-          Espaço Therapias
-        </h1>
-        <div className='ms-auto'>
-          <nav className="flex gap-4">
+        <div className={`md:ms-auto overflow-hidden transition-all duration-500 ${menuExpanded ? 'max-h-96 my-4' : 'max-h-0 md:max-h-96'}`}>
+          <nav className={`flex flex-col md:flex-row md:gap-4 gap-2`}>
             <a href="#PrimeiraImpressao" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
               <i className="fa-solid fa-home text-sm"></i>
               <p className='text-sm'>Inicio</p>
@@ -112,7 +120,7 @@ export function Portifolio() {
 
       <main className="bg-creme w-full h-screen flex flex-col items-center">
         {/* Primeira Impressao */}
-        <section id='PrimeiraImpressao' className="bg-tostado_claro w-10/12 max-w-6xl p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg mt-36">
+        <section id='PrimeiraImpressao' className="bg-tostado_claro w-11/12 md:w-10/12 max-w-6xl p-4 md:p-8 my-8 flex flex-col lg:flex-row gap-8 rounded-lg shadow-lg mt-36">
           <div className="border-4 border-[#C6A850] w-full lg:w-1/3 h-[40vh] lg:h-auto overflow-hidden rounded-lg">
             <img
               src={Dilma}
@@ -137,7 +145,7 @@ export function Portifolio() {
                     onClick={(e) => {
                       e.preventDefault();
                       const section = document.querySelector('#Servico' + tipoConsulta.id.toString());
-                      const offset = 200; // Defina o deslocamento desejado
+                      const offset = 200; // Deslocamento desejado
                       const sectionTop = section?.getBoundingClientRect()?.top ?? 0 + window.scrollY; // Posição da seção em relação ao topo
                       window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); // Rolagem suave com deslocamento
                     }}
@@ -155,19 +163,19 @@ export function Portifolio() {
           </div>
         </section>
         {/* Sobre */}
-        <section id='Sobre' className="w-full p-12 bg-[url('/src/assets/about-me-section.png')] ">
+        <section id='Sobre' className="w-full px-4 py-8 md:p-12 bg-[url('/src/assets/about-me-section.png')] ">
           <div className='flex flex-col'>
             <div>
-              <h2 className='text-creme text-5xl font-bold font-dancing'>Que tal me conhecer?</h2>
+              <h2 className='text-castanho_rosado text-4xl md:text-5xl font-bold font-dancing'>Que tal me conhecer?</h2>
             </div>
           </div>
-          <div className='flex flex-row'>
-            <div className='w-[60%] mt-8 font-spectral ms-24'>
-              <p className='text-2xl'>Prazer</p>
-              <p className='ms-4 mt-2 text-sm'>Sou Dilma Marcela da Silva Merola, sou ...</p>
+          <div className='flex flex-row mt-4 md:mt-0'>
+            <div className='w-[60%] mt-2 md:mt-8 font-spectral md:ms-24'>
+              <p className='text-lg md:text-2xl'>Prazer</p>
+              <p className='ms-2 md:ms-4 mt-2 text-sm'>Sou Dilma Marcela da Silva Merola, sou ...</p>
             </div>
             <div className='w-[40%]'>
-              <div className='w-[75%]'>
+              <div className='md:w-[75%]'>
                 <img src="https://placehold.co/500x600" alt="Dilma" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-lg" />
               </div>
             </div>
@@ -180,11 +188,11 @@ export function Portifolio() {
               <h2 className='text-tostado_claro text-5xl font-bold font-dancing text-center'>Tipos de Consultas</h2>
             </div>
             {tiposConsultas.map((tipoConsulta, index) => (
-              <div id={'Servico'+ tipoConsulta.id.toString()} className={`w-[75%] bg-azul p-8 flex flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
-                <div className='w-[40%] h-[50vh]'>
+              <div id={'Servico'+ tipoConsulta.id.toString()} className={`w-[90%] md:w-[75%] bg-azul p-8 flex flex-col md:flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
+                <div className='w-full md:w-[40%] md:h-[50vh]'>
                   <img src={tipoConsulta.imagem} alt="colsulta" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-2xl" />
                 </div>
-                <div className='w-[60%] h-[80%] my-auto'>
+                <div className='w-full md:w-[60%] md:h-[80%] my-auto'>
                   <h3 className='text-3xl font-bold font-dancing'>{tipoConsulta.nome}</h3>
                   <div className='mt-8'>
                     <p className='text-black font-spectral'>{tipoConsulta.descricao}</p>
