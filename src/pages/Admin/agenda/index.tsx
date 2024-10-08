@@ -239,7 +239,7 @@ export function Agenda() {
               }}
               locale={ptBrLocale}
               eventColor='#BD7350'
-              eventClick={handleEventClick}
+              eventClick={() => handleEventClick}
               datesSet={(info) => infosAgenda(info.start.getMonth() + 2, info.start.getFullYear())}
               dateClick={(info) => dataParaConsulta(info.dateStr)}
             />
