@@ -228,7 +228,7 @@ export function Clientes() {
     //Testar
     const deletarCliente = () => {
       fetch(import.meta.env.VITE_API+"/cliente/cadastro/"+ clienteIdToDelete, {
-        method: "DELETE",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },

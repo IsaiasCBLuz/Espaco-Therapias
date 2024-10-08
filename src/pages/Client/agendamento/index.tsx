@@ -14,11 +14,7 @@ interface Event {
 }
 
 export function Agendamento() {
-  const [events, setEvents] = useState<Event[]>([
-    // { id:1, title: 'Evento 1', date: '2024-10-05 13:00'},
-    // { id:2, title: 'Evento 2', date: '2024-10-15 14:00'},
-    // { id:3, title: 'Evento 3', date: '2024-10-15 15:00'}
-  ]);
+  const [events, setEvents] = useState<Event[]>([]);
 
   const [sendDisabled, setSendDisabled] = useState(true);
   const [nome, setNome] = useState('');
