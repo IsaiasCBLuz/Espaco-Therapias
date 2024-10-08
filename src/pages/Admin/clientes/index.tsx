@@ -265,7 +265,11 @@ export function Clientes() {
     return (
         <>
           <MySpaceNavbar />
-      
+          {message.message && (
+            <div className={`fixed inset-x-0 top-20 z-50 bg-${message.type} text-creme p-2 text-center`}>
+              <p>{message.message}</p>
+            </div>
+          )}
           <main className={`bg-[#D4B8A3] w-full min-h-screen flex flex-col pt-32 px-4 lg:px-16 pb-8`}>
             <div className='grid grid-cols-3'>
               <div>
