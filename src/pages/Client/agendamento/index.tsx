@@ -8,15 +8,16 @@ import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import logo from '../../../assets/logo-removebg-preview.png';
 
 interface Event {
+  id: number;
   title: string;
   date: string;
 }
 
 export function Agendamento() {
   const [events, setEvents] = useState<Event[]>([
-    { title: 'Evento 1', date: '2024-09-05 13:00'},
-    { title: 'Evento 2', date: '2024-09-15 14:00'},
-    { title: 'Evento 3', date: '2024-09-15 15:00'}
+    // { id:1, title: 'Evento 1', date: '2024-10-05 13:00'},
+    // { id:2, title: 'Evento 2', date: '2024-10-15 14:00'},
+    // { id:3, title: 'Evento 3', date: '2024-10-15 15:00'}
   ]);
 
   const [sendDisabled, setSendDisabled] = useState(true);
@@ -30,6 +31,7 @@ export function Agendamento() {
   const [nomeErro, setNomeErro] = useState('');
   const [emailErro, setEmailErro] = useState('');
   const [telefoneErro, setTelefoneErro] = useState('');
+  const [idConsulta, setIdConsulta] = useState(0);
 
   const selecionaData = (arg: { dateStr: string; }) => {
     const eventosNaData = events.filter(event => event.date.split(' ')[0] === arg.dateStr);
@@ -49,7 +51,8 @@ export function Agendamento() {
     }
   };
 
-  const selecionaEvento = (eventDate: string) => {
+  const selecionaEvento = (eventDate: string, eventId: number) => {
+    setIdConsulta(eventId);
     setData(eventDate);
     const [ano, mes, dia] = eventDate.split(' ')[0].split('-');
     const dataCorreta = new Date(parseInt(ano), parseInt(mes) - 1, parseInt(dia));
@@ -57,7 +60,9 @@ export function Agendamento() {
     setOpenDay(false);
   };
 
-  const handleEventClick = (info: { event: { start: string; title: string; }; }) => {
+  const handleEventClick = (info: { event: { start: string; title: string; id: number }; }) => {
+    setIdConsulta(info.event.id);
+    console.log(info.event.id);
     const eventDate = info.event.start.toISOString().split('T')[0] + ' ' + info.event.start.toTimeString().split(' ')[0]; // Formato: YYYY-MM-DD HH:MM:SS
     selecionaEvento(eventDate);
   };
@@ -91,9 +96,56 @@ export function Agendamento() {
   const handleAgendar = (e: React.FormEvent) => {
     e.preventDefault();
     if (verificarIntegridadeCampos()) {
-      alert('Agendamento realizado com sucesso!');
+      registrarHorario();
     }
   };
+
+  const handleHorariosLivre = () => {
+    fetch(import.meta.env.VITE_API+'/prontuario/livres', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then((data) => {
+          console.log(data.body);
+          setEvents(data.body);
+        });
+      } else {
+        return response.json();
+      }
+    }).catch((error) => {
+      console.error('Erro:', error);
+    });
+  };
+
+  const registrarHorario = () => {
+    fetch(import.meta.env.VITE_API+'/prontuario/agendar-livre', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        data: data,
+        id_consulta: idConsulta
+      })
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then((data) => {
+          console.log(data.body);
+          setEvents(data.body);
+        });
+      } else {
+        return response.json();
+      }
+    }).catch((error) => {
+      console.error('Erro:', error);
+    });
+  }
 
   useEffect(() => {
     setSendDisabled(!verificarCamposPreenchidos());
@@ -112,8 +164,8 @@ export function Agendamento() {
   }, [telefone]);
 
   useEffect(() => {
-    setEvents(events)
-  }, [events]);
+    handleHorariosLivre();
+  }, []);
 
   return (
     <>
@@ -138,7 +190,7 @@ export function Agendamento() {
         <div className='md:py-16 pt-32 pb-32'>
           <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado text-center">Agende sua primeira conversa!</h1>
         </div>
-        <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8 h-[60vh]'>
+        <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8'>
           <div className='w-full md:w-[40%] pe-12 md:pt-24'>
             <p className="text-2xl font-bold text-creme font-dancing mb-8">Suas Infos</p>
             <form className='flex flex-col'>
@@ -208,7 +260,7 @@ export function Agendamento() {
               </button>
             </form>
           </div>
-          <div className='hidden md:block w-[60%] h-[95vh] bg-creme rounded-s-3xl p-3'>
+          <div className='hidden md:block w-[60%] bg-creme rounded-s-3xl p-3'>
             {openDay ? 
               <div className='flex flex-col'>
                 <i className="fa-solid fa-xmark text-red-500 text-3xl hover:text-4xl hover:cursor-pointer" onClick={() => setOpenDay(false)}></i>
@@ -220,7 +272,7 @@ export function Agendamento() {
                     <div
                       key={index}
                       className='flex flex-row justify-between items-center p-3 border-b border-gray-300 hover:bg-[#FFE3D3] hover:cursor-pointer'
-                      onClick={() => selecionaEvento(event.date)}
+                      onClick={() => selecionaEvento(event.date, event.id)}
                     >
                       <p className='text-2xl font-bold text-castanho_rosado font-dancing'>{event.title}</p>
                       <p className='text-2xl font-bold text-castanho_rosado font-dancing'>{event.date.split(' ')[1]}</p>

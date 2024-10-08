@@ -78,7 +78,7 @@ export function Portifolio() {
 
   return (
     <>
-      <header className="bg-tostado_claro w-full flex flex-col md:flex-row items-center px-8 py-1 fixed shadow-lg rounded-b-2xl">
+      <header className="bg-creme w-full flex flex-col md:flex-row items-center px-8 py-1 fixed shadow-lg rounded-b-2xl">
         <div className='flex flex-row items-center w-full md:w-1/2'>
           <a className="w-20 h-20 mr-4" href='/login'>
             <img src={logo} alt="logo" className="object-contain w-full h-full" />
@@ -170,22 +170,22 @@ export function Portifolio() {
             </div>
           </div>
           <div className='flex flex-row mt-4 md:mt-0'>
-            <div className='w-[60%] mt-2 md:mt-8 font-spectral md:ms-24'>
+            <div className='w-[100%] mt-2 md:mt-8 font-spectral md:ms-24'>
               <p className='text-lg md:text-2xl'>Prazer</p>
               <p className='ms-2 md:ms-4 mt-2 text-sm'>Sou Dilma Marcela da Silva Merola, sou ...</p>
             </div>
-            <div className='w-[40%]'>
+            {/* <div className='w-[40%]'>
               <div className='md:w-[75%]'>
                 <img src="https://placehold.co/500x600" alt="Dilma" className="object-cover w-full h-full border-4 border-[#C6A850] rounded-lg" />
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
         {/* Servicos */}
         <section id='Servicos' className='w-full flex flex-col pt-16 bg-creme pb-16'>
           <div className='flex flex-col gap-16'>
             <div>
-              <h2 className='text-tostado_claro text-5xl font-bold font-dancing text-center'>Tipos de Consultas</h2>
+              <h2 className='text-castanho_rosado text-5xl font-bold font-dancing text-center'>Tipos de Consultas</h2>
             </div>
             {tiposConsultas.map((tipoConsulta, index) => (
               <div id={'Servico'+ tipoConsulta.id.toString()} className={`w-[90%] md:w-[75%] bg-azul p-8 flex flex-col md:flex-row gap-8 ${index % 2 == 0 ? 'me-auto rounded-e-3xl' : 'ms-auto rounded-s-3xl'}`}>
