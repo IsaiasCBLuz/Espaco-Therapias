@@ -431,7 +431,10 @@ export function Clientes() {
                   <p id='ModalConsultaTitle' className='text-xl font-spectral'>{consultaForModal ? consultaForModal : 'Sem Título'}</p>
                 }
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'
-                  onClick={() => setConsultaDescModal(false)}
+                  onClick={() => {
+                    setConsultaDescModal(false)
+                    setEditingConsulta(false)
+                  }}
                 ></i>
               </div>
               <div className='mt-4 flex-1 overflow-hidden'>
@@ -442,7 +445,7 @@ export function Clientes() {
                             onChange={(e) => setDescricaoForModal(e.target.value)}
                   ></textarea> 
                   : 
-                  <pre id='ModalConsultaDesc' className='text-sm font-spectral overflow-y-auto h-full text-wrap'>{descricaoForModal ? descricaoForModal : 'Nada foi anotado na ultima consulta'}</pre>
+                  <pre id='ModalConsultaDesc' className='text-base font-spectral overflow-y-auto h-full text-wrap'>{descricaoForModal ? descricaoForModal : 'Nada foi anotado na ultima consulta'}</pre>
                 }
               </div>
               {tipoForModal && (
@@ -482,9 +485,19 @@ export function Clientes() {
                 <input type='date' className='text-base font-spectral placeholder-black w-full p-2 border-2 border-castanho_rosado rounded-lg resize-none mt-2'
                        placeholder='Data de Nascimento' onChange={(e) => setNascimentoNovoCliente(e.target.value)}
                 ></input>
-                <input type='text' className='text-base font-spectral placeholder-black w-full p-2 border-2 border-castanho_rosado rounded-lg resize-none mt-2'
-                       placeholder='Recorrência' onChange={(e) => setRecorrenciaNovoCliente(e.target.value)}
-                ></input>
+                <div className="relative">
+                  <select
+                    className="text-base font-spectral placeholder-black w-full p-2 border-2 border-castanho_rosado rounded-lg resize-none mt-2 appearance-none"
+                    onChange={(e) => setRecorrenciaNovoCliente(e.target.value)}
+                  >
+                    <option value="">Recorrência</option>
+                    <option value="semanal">Semanal</option>
+                    <option value="quinzenal">Quinzenal</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="avulso">Avulso</option>
+                  </select>
+                  <i className="fas fa-caret-down absolute right-3 mt-4 text-xl pointer-events-none"></i>
+                </div>
               </div>
               <div className='w-full flex'>
                 <button className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto' onClick={() => cadastraCliente()}>

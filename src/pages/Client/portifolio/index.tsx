@@ -172,7 +172,42 @@ export function Portifolio() {
           <div className='flex flex-row mt-4 md:mt-0'>
             <div className='w-[100%] mt-2 md:mt-8 font-spectral md:ms-24'>
               <p className='text-lg md:text-2xl'>Prazer</p>
-              <p className='ms-2 md:ms-4 mt-2 text-sm'>Sou Dilma Marcela da Silva Merola, sou ...</p>
+              <div className='flex flex-col gap-1'>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Muitos me chamam de <strong>Dilma</strong>, mas também algumas pessoas preferem me chamar de <strong>Marcela</strong> (meu segundo nome). Principalmente depois de trabalhar com crianças bem pequenas....
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Minha primeira formação, foi em <strong>Psicologia Clínica em 2002</strong>, pela <strong>Universidade São Marcos - SP</strong>, atuei por alguns anos na área de RH e, simultaneamente, clinicamente com <strong>crianças, adolecentes e adultos.</strong>
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Me casei em 2003, e depois de alguns meses engravidei e passei por uma gravidez de risco. Desta forma, fiz minha melhor opção de vida nesta nova etapa (mas que na época foi bem desafiador).
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Dei uma pausa profissional e me dediquei totalmente a minha família, meu filho <strong>Gabriel</strong> e mais tarde, a minha filha <strong>Mariana</strong>.
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Depois de alguns anos, achei que ero o momento de retomar a minha vida profissional, mas precisava me atualizar, e ao mesmo tempo, não queria deixar meus filhos o dia todo na escola. Optei por retornar através da formação em <strong>Pedagogia</strong> me especializando na <strong>Primeirissíma infância (A Especificidade no desenvolvimento de bebês de 0 a 3 anos).</strong>
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Trabalhei em muitos lugares especiais e com pessoas maravilhosas, que me ajudaram muito. Ainda assim, a <strong>Psicologia me "chamava"....</strong>
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Atuando após alguns anos, do cargo de <strong>Professora</strong> até ao de <strong>Coordenadora Pedagógica</strong>, trabalhei diretamente tanto com crianças quanto com orientação às fámilias, pais, mães, avós, tios(as) .... Enfim, todas as pessoas envolvidas na educação e cuidados com bebês e as crianças.
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Assim decidi retomar meu <strong>sonho, propósito, amor profissional e acima de tudo, minha missão de vida,</strong> atráves da psicologia.
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Desde então, muito <strong>estudo</strong>, <strong>dedicação</strong>, <strong>superação</strong>, <strong>desafios</strong>, <strong>evolução pessoal e espiritual</strong> e muitas <strong>descobertas</strong> para <strong>ampliação do olhar</strong> psicológico nos atendimentos, de maneira <strong>holística</strong>.
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  Assim nasce o <strong>ESPAÇO THERAPIAS</strong>, um espaço de <strong>Acolhimento</strong>, <strong>Escuta</strong> e <strong>Transformação</strong> para todos.
+                </p>
+                <p className='ms-2 md:ms-4 text-sm'>
+                  O <strong>ESPAÇO THERAPIAS</strong>, é um espaço que acolhe adultos e crianças, que desejam um acompanhamento psicológico contínuo ou também aqueles que desejam um olhar mais holístico para si, associando diversas terapias alternativas e energéticas, como ,<strong>THETAHEALING, CONSTELAÇÃO FAMILIAR, TERAPIA MULTIDIMENSIONAL, TAMEANA, REIKI</strong>, entre outras...
+                </p>
+              </div>
+                
             </div>
             {/* <div className='w-[40%]'>
               <div className='md:w-[75%]'>
@@ -230,16 +265,16 @@ export function Portifolio() {
             </h2>
           </div>
           <div className="text-center max-w-2xl">
-            <p className="text-sm font-spectral text-castanho_claro mb-4">
+            <a href='https://www.instagram.com/stories/highlights/18006084224084045/' className="text-sm font-spectral text-castanho_claro mb-4 underline">
               Veja o que os clientes têm a dizer sobre o atendimento.
-            </p>
+            </a>
             <div className="flex flex-col gap-8">
               
             </div>
           </div>
         </section>
         <footer className="bg-tostado_claro w-full py-2 flex flex-row gap-16 items-center justify-center z-10 text-center">
-          <p className="text-gray-700 font-bold text-xs mt-2">© 2024 Espaço Therapias Multidimensional</p>
+          <p className="text-gray-700 font-bold text-xs mt-2">© 2024 Espaço Therapias</p>
         </footer>
       </main>
     </>

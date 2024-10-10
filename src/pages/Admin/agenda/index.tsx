@@ -34,8 +34,10 @@ export function Agenda() {
   const [idConsulta, setIdConsulta] = useState(0);
   // const [antigoHorario, setAntigoHorario] = useState('');
 
-  const handleEventClick = async (info: { event: { id: number; start: string; title: string; }; }) => {
-      await sumarioConsulta(info.event.id);
+  const handleEventClick = async (info: { event: { id: string; start: Date | null; title: string; }; }) => {
+    // console.log('chegou aqui');
+    // console.log(info.event.id);  
+    sumarioConsulta(parseInt(info.event.id));
   };
 
   const handleEventDrop = (info: any) => {
@@ -239,7 +241,7 @@ export function Agenda() {
               }}
               locale={ptBrLocale}
               eventColor='#BD7350'
-              eventClick={() => handleEventClick}
+              eventClick={(info) => handleEventClick(info)}
               datesSet={(info) => infosAgenda(info.start.getMonth() + 2, info.start.getFullYear())}
               dateClick={(info) => dataParaConsulta(info.dateStr)}
             />
@@ -311,7 +313,7 @@ export function Agenda() {
             <i className="fas fa-times text-tostado ml-auto cursor-pointer text-xl" onClick={() => setAgendarModalOpen(false)}></i>
           </div>
           <div className='flex flex-col mt-2'>
-            <label className='font-spectral text-base'>Quem:</label>
+            <label className='font-spectral text-base'>Cliente:</label>
             <div className="relative mt-2">
               <select id='selectCliente' className="p-2 border rounded-md text-sm font-spectral appearance-none w-full"
                 onChange={(e) => setIdCliente(parseInt(e.target.value))}>
