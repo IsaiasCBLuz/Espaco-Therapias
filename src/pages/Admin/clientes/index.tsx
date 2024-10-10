@@ -47,8 +47,13 @@ export function Clientes() {
     const [recorrenciaNovoCliente, setRecorrenciaNovoCliente] = useState('');
     const [nascimentoNovoCliente, setNascimentoNovoCliente] = useState('');
 
-    function handleExpand(id: number) {
-        getConsultasCliente(id)
+    const [idCliente, setIdCliente] = useState(0);
+
+    function handleExpand(id: number, openClose: boolean) {
+        if (openClose) {
+          setIdCliente(id)
+          getConsultasCliente(id)
+        }
         setClientes(
           clientes.map((cliente) => {
             if (cliente.id === id) {
@@ -190,7 +195,7 @@ export function Clientes() {
       })
         .then((response) => {
           if (response.status == 200){
-            getConsultasCliente(consultaIdModal);
+            getConsultasCliente(idCliente);
             return response.json()
           }
           else
@@ -295,7 +300,7 @@ export function Clientes() {
                       <i className={`fas fa-${cliente.editing ? 'check' : 'pen'} text-creme cursor-pointer`}
                         onClick={() => handleEdit(cliente.id)}></i>
                       <i className={`fas ${window.innerWidth < 720 ? 'fa-arrows-rotate' : cliente.expanded ? 'fa-minimize' : 'fa-maximize'} text-creme cursor-pointer`}
-                        onClick={() => handleExpand(cliente.id)}></i>
+                        onClick={() => handleExpand(cliente.id, !cliente.expanded)}></i>
                     </div>
                     <div className='grid grid-cols-4 gap-4'>
                       <div className={`${cliente.expanded ? 'col-span-full md:col-span-1' : 'col-span-full'}`}>
