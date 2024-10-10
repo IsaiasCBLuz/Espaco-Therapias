@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MySpaceNavbar from '../../../components/mySpaceNavbar';
+import useSpeechToText from 'react-hook-speech-to-text';
 
 interface Clinte {
   consultaHoje: string;
@@ -48,6 +49,14 @@ export function Clientes() {
     const [nascimentoNovoCliente, setNascimentoNovoCliente] = useState('');
 
     const [idCliente, setIdCliente] = useState(0);
+
+    const [textoInicial, setTextoInicial] = useState('');
+    const {error, interimResult, isRecording, results, startSpeechToText, stopSpeechToText,
+    } = useSpeechToText({
+      continuous: true,
+      timeout: 2000,
+      useLegacyResults: false
+    });
 
     function handleExpand(id: number, openClose: boolean) {
         if (openClose) {
@@ -270,6 +279,20 @@ export function Clientes() {
       getCliente()
     }, []);
 
+    useEffect(() =>{
+      console.log(results)
+      console.log(results.length)
+      let textoCompleto = results.map(function(result) {
+        return result.transcript
+      })
+      if (results.length > 0)
+        setDescricaoForModal(textoInicial + " " + results[results.length-1].transcript)
+    },[results])
+  
+    useEffect(() =>{
+      setTextoInicial(descricaoForModal)
+    },[descricaoForModal])
+
     return (
         <>
           <MySpaceNavbar />
@@ -441,7 +464,16 @@ export function Clientes() {
                   }}
                 ></i>
               </div>
-              <div className='mt-4 flex-1 overflow-hidden'>
+              {editingConsulta && (
+                <div className='mt-4'>
+                  {(isRecording)?
+                    <i className="fas fa-microphone text-castanho_rosado text-2xl cursor-pointer" onClick={() => stopSpeechToText()}></i>
+                    :
+                    <i className="fas fa-microphone-slash text-castanho_rosado text-2xl cursor-pointer" onClick={() => startSpeechToText()}></i>
+                  }
+                </div>
+              )}
+              <div className={`mt-${editingConsulta ? '0' : '4'} flex-1 overflow-hidden`}>
                 {editingConsulta ? 
                   <textarea id='ModalConsultaDesc' 
                             className='text-base font-spectral w-full h-full p-2 border-2 border-castanho_rosado rounded-lg resize-none'
