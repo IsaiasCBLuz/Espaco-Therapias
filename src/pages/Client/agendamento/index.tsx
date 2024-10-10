@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 
 import logo from '../../../assets/logo-removebg-preview.png';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Event {
   id: number;
@@ -28,6 +29,8 @@ export function Agendamento() {
   const [emailErro, setEmailErro] = useState('');
   const [telefoneErro, setTelefoneErro] = useState('');
   const [idConsulta, setIdConsulta] = useState(0);
+  const [dtNascimento, setDtNascimento] = useState('');
+  const [dtNascimentoErro, setDtNascimentoErro] = useState('');
 
   const selecionaData = (arg: { dateStr: string; }) => {
     const eventosNaData = events.filter(event => event.date.split(' ')[0] === arg.dateStr);
@@ -43,11 +46,20 @@ export function Agendamento() {
       setEventsInDay(eventosNaData);
       setOpenDay(true);
     } else {
-      alert('Nenhum evento cadastrado para esta data.');
+      toast.error("Não há horários disponíveis para esta data.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     }
   };
 
   const selecionaEvento = (eventDate: string, eventId: number) => {
+    console.log(eventDate, eventId);
     setIdConsulta(eventId);
     setData(eventDate);
     const [ano, mes, dia] = eventDate.split(' ')[0].split('-');
@@ -57,14 +69,14 @@ export function Agendamento() {
   };
 
   const handleEventClick = (info: { event: { start: string; title: string; id: number }; }) => {
-    setIdConsulta(info.event.id);
-    console.log(info.event.id);
+    // setIdConsulta(info.event.id);
+    // console.log(info.event.id);
     const eventDate = info.event.start.toISOString().split('T')[0] + ' ' + info.event.start.toTimeString().split(' ')[0]; // Formato: YYYY-MM-DD HH:MM:SS
-    selecionaEvento(eventDate);
+    selecionaEvento(eventDate, info.event.id);
   };
 
   const verificarCamposPreenchidos = () => {
-    return nome.trim() !== '' && email.trim() !== '' && telefone.trim() !== '' && data !== '';
+    return nome.trim() !== '' && email.trim() !== '' && telefone.trim() !== '' && data !== '' && dtNascimento !== '';
   };
 
   const verificarIntegridadeCampos = () => {
@@ -83,6 +95,12 @@ export function Agendamento() {
     const telefoneRegex = /^[0-9]+$/;
     if (!telefoneRegex.test(telefone.trim())) {
       setTelefoneErro('Por favor, preencha o campo Telefone corretamente (somente números).');
+      return false;
+    }
+
+    const dtNascimentoRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+    if (!dtNascimentoRegex.test(dtNascimento)) {
+      setDtNascimentoErro('Por favor, preencha o campo Data de Nascimento corretamente (formato: YYYY-MM-DD).');
       return false;
     }
   
@@ -117,6 +135,7 @@ export function Agendamento() {
   };
 
   const registrarHorario = () => {
+    console.log(nome, email, telefone, data, idConsulta, dtNascimento);
     fetch(import.meta.env.VITE_API+'/prontuario/agendar-livre', {
       method: "POST",
       headers: {
@@ -127,13 +146,22 @@ export function Agendamento() {
         email: email,
         telefone: telefone,
         data: data,
-        id_consulta: idConsulta
+        id_consulta: idConsulta,
+        dtNascimento: dtNascimento
       })
     }).then((response) => {
       if (response.status == 200) {
-        response.json().then((data) => {
-          console.log(data.body);
-          setEvents(data.body);
+        response.json().then(() => {
+          toast.success("Consulta agendada com sucesso!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            onClose: () => window.location.reload()
+          });
         });
       } else {
         return response.json();
@@ -145,7 +173,7 @@ export function Agendamento() {
 
   useEffect(() => {
     setSendDisabled(!verificarCamposPreenchidos());
-  }, [nome, email, telefone, data]);
+  }, [nome, email, telefone, data, dtNascimento]);
 
   useEffect(() => {
     setNomeErro('');
@@ -158,6 +186,10 @@ export function Agendamento() {
   useEffect(() => {
     setTelefoneErro('');
   }, [telefone]);
+
+  useEffect(() => {
+    setDtNascimentoErro('');
+  }, [dtNascimento]);
 
   useEffect(() => {
     handleHorariosLivre();
@@ -181,13 +213,13 @@ export function Agendamento() {
           </nav>
         </div>
       </header>
-
+      <ToastContainer />
       <main className='w-full md:h-screen bg-creme'>
         <div className='md:py-16 pt-32 pb-32'>
           <h1 className="text-2xl font-bold font-amsterdam text-castanho_rosado text-center">Agende sua primeira conversa!</h1>
         </div>
         <div className='w-full bg-castanho_rosado flex flex-row ps-12 py-8'>
-          <div className='w-full md:w-[40%] pe-12 md:pt-24'>
+          <div className='w-full md:w-[40%] pe-12 md:pt-12'>
             <p className="text-2xl font-bold text-creme font-dancing mb-8">Suas Infos</p>
             <form className='flex flex-col'>
               <div className='w-full mb-2'>
@@ -201,7 +233,7 @@ export function Agendamento() {
                 {nomeErro && 
                   <div className='ms-4 flex flex-row gap-1 items-center mt-1'>
                     <i className="fa-solid fa-exclamation-circle text-creme"></i>
-                    <p className='text-sm text-creme'>{nomeErro}</p>
+                    <p className='text-xs text-creme'>{nomeErro}</p>
                   </div>
                 }
               </div>
@@ -216,7 +248,7 @@ export function Agendamento() {
                 {emailErro && 
                   <div className='ms-4 flex flex-row gap-1 items-center mt-1'>
                     <i className="fa-solid fa-exclamation-circle text-creme"></i>
-                    <p className='text-sm text-creme'>{emailErro}</p>
+                    <p className='text-xs text-creme'>{emailErro}</p>
                   </div>
                 }
               </div>
@@ -231,7 +263,22 @@ export function Agendamento() {
                 {telefoneErro && 
                   <div className='ms-4 flex flex-row gap-1 items-center mt-1'>
                     <i className="fa-solid fa-exclamation-circle text-creme"></i>
-                    <p className='text-sm text-creme'>{telefoneErro}</p>
+                    <p className='text-xs text-creme'>{telefoneErro}</p>
+                  </div>
+                }
+              </div>
+              <div className='w-full mb-2'>
+                <input 
+                  type='date' 
+                  placeholder='Data de Nascimento' 
+                  className='bg-creme w-full rounded-3xl p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-tostado_claro text-sm'
+                  value={dtNascimento}
+                  onChange={(e) => setDtNascimento(e.target.value)}
+                />
+                {dtNascimentoErro && 
+                  <div className='ms-4 flex flex-row gap-1 items-center mt-1'>
+                    <i className="fa-solid fa-exclamation-circle text-creme"></i>
+                    <p className='text-xs text-creme'>{dtNascimentoErro}</p>
                   </div>
                 }
               </div>

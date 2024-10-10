@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import MySpaceNavbar from '../../../components/mySpaceNavbar';
 
 interface Clinte {
+  consultaHoje: string;
   id: number;
   nome: string;
   email: string;
@@ -175,7 +176,7 @@ export function Clientes() {
     }
     //Testar
     const atualizarConsulta = () => {
-      fetch(import.meta.env.VITE_API+"/prontuario/prontuario", {
+      fetch(import.meta.env.VITE_API+"/prontuario", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -356,10 +357,10 @@ export function Clientes() {
                             >
                               {cliente.proximasConsultas.map((consulta, index) => (
                                 <div
-                                  className={`bg-castanho_claro p-2 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 border border-creme justify-center`}
+                                  className={`p-2 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 border 'border-creme' ${consulta === cliente.consultaHoje ? 'bg-creme' : 'bg-castanho_rosado '} justify-center`}
                                   key={index}
                                 >
-                                  <p className="text-creme text-center text-sm text-wrap w-full">
+                                  <p className={`${consulta === cliente.consultaHoje ? 'text-castanho_rosado' : 'text-creme'} text-center text-sm text-wrap w-full`}>
                                     {consulta}
                                   </p>
                                 </div>
@@ -421,7 +422,7 @@ export function Clientes() {
           </main>
           {/* Modal da descrição da consulta */}
           <div className={`${consutaDescModal ? 'flex' : 'hidden'} fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] justify-center items-center`}>
-            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-2 border-tostado_claro p-4'>
+            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
                 {editingConsulta ?
                   <input type='text' className='text-base font-spectral w-11/12 p-2 border-2 border-castanho_rosado rounded-lg resize-none'
@@ -465,7 +466,7 @@ export function Clientes() {
           </div>
           {/* Modal de adição de cliente */}
           <div className={`fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] ${adicaoModal ? 'flex' : 'hidden'} justify-center items-center`}>
-            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-2 border-tostado_claro p-4'>
+            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
                 <p id='ModalConsultaTitle' className='text-xl font-spectral'>Adicionar novo cliente</p>
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'
@@ -508,7 +509,7 @@ export function Clientes() {
           </div>
           {/* Modal de exclusão de cliente */}
           <div className={`fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] ${deleteModal ? 'flex' : 'hidden'} justify-center items-center`}>
-            <div className='flex flex-col bg-creme w-4/12 h-2/6 mx-auto rounded-xl border-2 border-tostado_claro p-4'>
+            <div className='flex flex-col bg-creme w-4/12 h-2/6 mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
                 <p id='ModalConsultaTitle' className='text-lg font-spectral'>Tem certeza que deseja excluir {clienteNameToDelete} de sua lista de clientes?</p>
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'

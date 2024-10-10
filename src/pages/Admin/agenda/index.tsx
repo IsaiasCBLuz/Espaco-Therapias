@@ -5,6 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; 
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import MySpaceNavbar from "../../../components/mySpaceNavbar";
+import { toast, ToastContainer } from 'react-toastify';
 
 export function Agenda() {
   interface Cliente {
@@ -38,6 +39,7 @@ export function Agenda() {
     // console.log('chegou aqui');
     // console.log(info.event.id);  
     sumarioConsulta(parseInt(info.event.id));
+    setIdConsulta(parseInt(info.event.id));
   };
 
   const handleEventDrop = (info: any) => {
@@ -54,7 +56,6 @@ export function Agenda() {
     setModalAgendamentoOpen(true);
   };
 
-  // Testar
   const confirmarNovoHorario = () => {
     fetch(import.meta.env.VITE_API+'/prontuario/horario/' + idConsulta, {
       method: "PUT",
@@ -75,6 +76,18 @@ export function Agenda() {
           window.location.reload();
         });
       } else {
+        response.json().then((data) => {
+          // console.log(data.error);
+          toast.error(data.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
         return response.json();
       }
     }).catch((error) => {
@@ -146,7 +159,7 @@ export function Agenda() {
       console.error('Erro:', error);
     });
   }
-  // Testar
+  
   const agendarConsulta = () => {
     if (!dataAgendamento || !horarioAgendamento) {
       console.log(dataAgendamento, horarioAgendamento, idCliente);
@@ -169,12 +182,27 @@ export function Agenda() {
         response.json().then((data) => {
           console.log(data.message);
           setAgendarModalOpen(false);
+          window.location.reload();
         });
       } else {
+        // console.error('Erro:', response);
+        response.json().then((data) => {
+          // console.log(data.error);
+          toast.error(data.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
         return response.json();
       }
     }).catch((error) => {
-      console.error('Erro:', error);
+      // console.error('Erro:', error);
+      return error;
     });
   }
 
@@ -203,6 +231,39 @@ export function Agenda() {
       console.error('Erro:', error);
   })};
 
+  const deletarConsulta = () => {
+    fetch(import.meta.env.VITE_API+'/prontuario/horario/' + idConsulta, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then((data) => {
+          console.log(data.message);
+          window.location.reload();
+        });
+      } else {
+        response.json().then((data) => {
+          // console.log(data.message);
+          toast.error(data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
+        return response.json();
+      }
+    }).catch((error) => {
+      console.error('Erro:', error);
+    });
+  }
+
   useEffect(() => {
     clientesAgenda();
   }, []);
@@ -221,6 +282,7 @@ export function Agenda() {
   return (
     <>
       <MySpaceNavbar />
+      <ToastContainer />
       <main className={`bg-[#D4B8A3] w-full min-h-screen flex flex-col pt-32 px-4 lg:px-16 pb-8`}>
         <h1 className="text-3xl font-bold font-amsterdam text-tostado text-center mb-10">
           Agenda
@@ -250,7 +312,7 @@ export function Agenda() {
       </main>
       {/* Modal */}
       <div className={`${modalAgendamentoOpen ? 'flex' : 'hidden'} fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] justify-center items-center`}>
-        <div className='flex flex-col bg-creme w-6/12 max-h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4'>
+        <div className='flex flex-col bg-creme w-8/12 max-h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4'>
         {transferiu ? 
           <>
             <div className='flex flex-row'>
@@ -281,18 +343,19 @@ export function Agenda() {
           :
           <>
             <div className='flex flex-row'>
-              <p className='font-spectral'>{title} - {dataFormatada}</p>
+              <p className='font-spectral text-xl'>{title} - {dataFormatada}</p>
               <i className="fas fa-times text-tostado ml-auto cursor-pointer text-xl" onClick={() => setModalAgendamentoOpen(false)}></i>
             </div>
             <div className='flex flex-col mt-2'>
               <p className='text-sm font-spectral'>Telefone: {telefone}</p>
             </div>
             <div className='flex flex-col mt-2'>
-              <p className='text-sm font-spectral'>Última consulta ({tituloSumario}):</p>
-              <pre className='text-xs font-spectral overflow-y-auto h-full text-wrap max-h-60'>
+              <p className='text-lg font-spectral'>Última consulta ({tituloSumario}):</p>
+              <pre className='text-base font-spectral overflow-y-auto h-full text-wrap max-h-72 mt-2'>
                 {sumario}
               </pre>
             </div>
+            <button className='bg-castanho_rosado text-sm text-creme font-spectral px-2 py-1 rounded-xl w-4/12 mx-auto mt-4' onClick={() => deletarConsulta()}>Cancelar Consulta</button>
             {title === 'Horário Livre'
               ?
               <div className='flex flex-row mt-8 w-[100%] mx-auto'>
@@ -307,15 +370,15 @@ export function Agenda() {
       </div>
       {/* Modal de Agendamento */}
       <div className={`${agendarModalOpen ? 'flex' : 'hidden'} fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] justify-center items-center`}>
-        <div className='flex flex-col bg-creme w-8/12 max-h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4'>
+        <div className='flex flex-col bg-creme w-4/12 max-h-[80%] mx-auto my-auto rounded-xl border-4 border-castanho_rosado p-4'>
           <div className='flex flex-row'>
             <p className='font-spectral text-lg'>Agendar Consulta</p>
             <i className="fas fa-times text-tostado ml-auto cursor-pointer text-xl" onClick={() => setAgendarModalOpen(false)}></i>
           </div>
           <div className='flex flex-col mt-2'>
             <label className='font-spectral text-base'>Cliente:</label>
-            <div className="relative mt-2">
-              <select id='selectCliente' className="p-2 border rounded-md text-sm font-spectral appearance-none w-full"
+            <div className="relative">
+              <select id='selectCliente' className="p-2 border-2 border-castanho_rosado rounded-md text-sm font-spectral appearance-none w-full"
                 onChange={(e) => setIdCliente(parseInt(e.target.value))}>
                 <option value={0} className="text-sm text-castanho font-spectral">Horário Livre</option>
                 {clientes.map((cliente) => (
@@ -335,14 +398,14 @@ export function Agenda() {
             <label className='font-spectral text-base'>Data:</label>
             <input
               type="date"
-              className='mt-2 p-2 border rounded-md'
+              className=' p-2 border-2 rounded-md border-castanho_rosado'
               value={dataAgendamento}
               onChange={(e) => setDataAgendamento(e.target.value)} // Atualiza a data digitada
             />
           </div>
           <div className='flex flex-col mt-2'>
             <label className='font-spectral text-base'>Horário (HH:MM):</label>
-            <input type="time" className='mt-2 p-2 border rounded-md' onChange={(e) => setHorarioAgendamento(e.target.value)}/>
+            <input type="time" className=' p-2 border-2 rounded-md border-castanho_rosado' onChange={(e) => setHorarioAgendamento(e.target.value)}/>
           </div>
           <div className='flex flex-row mt-4'>
             <button
