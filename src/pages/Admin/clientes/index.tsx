@@ -189,8 +189,10 @@ export function Clientes() {
         })
       })
         .then((response) => {
-          if (response.status == 200)
+          if (response.status == 200){
+            getConsultasCliente(consultaIdModal);
             return response.json()
+          }
           else
             setMessage({"message":"Nenhum registro encontrado", "type":"danger"})
         })
@@ -266,11 +268,7 @@ export function Clientes() {
     return (
         <>
           <MySpaceNavbar />
-          {message.message && (
-            <div className={`fixed inset-x-0 top-20 z-50 bg-${message.type} text-creme p-2 text-center`}>
-              <p>{message.message}</p>
-            </div>
-          )}
+          <p className='hidden'>{message.message}</p>
           <main className={`bg-[#D4B8A3] w-full min-h-screen flex flex-col pt-32 px-4 lg:px-16 pb-8`}>
             <div className='grid grid-cols-3'>
               <div>
@@ -466,7 +464,7 @@ export function Clientes() {
           </div>
           {/* Modal de adição de cliente */}
           <div className={`fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] ${adicaoModal ? 'flex' : 'hidden'} justify-center items-center`}>
-            <div className='flex flex-col bg-creme w-8/12 h-[80%] mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
+            <div className='flex flex-col bg-creme w-4/12 h-[70%] mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
                 <p id='ModalConsultaTitle' className='text-xl font-spectral'>Adicionar novo cliente</p>
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'

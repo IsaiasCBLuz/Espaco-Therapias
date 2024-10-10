@@ -312,7 +312,7 @@ export function Agenda() {
       </main>
       {/* Modal */}
       <div className={`${modalAgendamentoOpen ? 'flex' : 'hidden'} fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] justify-center items-center`}>
-        <div className='flex flex-col bg-creme w-8/12 max-h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4'>
+        <div className={`flex flex-col bg-creme ${transferiu ? 'w-4/12' : 'w-8/12'} max-h-[80%] mx-auto my-auto rounded-xl border-2 border-tostado_claro p-4`}>
         {transferiu ? 
           <>
             <div className='flex flex-row'>
