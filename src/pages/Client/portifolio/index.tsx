@@ -71,10 +71,75 @@ export function Portifolio() {
     },
   ]);
   const [menuExpanded, setMenuExpanded] = useState(false);
+  const [inicionPosicaoY, setInicionPosicaoY] = useState(0);
+  const [sobrePosicaoY, setSobrePosicaoY] = useState(0);
+  const [servicoesPosicaoY, setServicoesPosicaoY] = useState(0);
+  const [agendaPosicaoY, setAgendaPosicaoY] = useState(0);
+  const [depoimentosPosicaoY, setDepoimentosPosicaoY] = useState(0);
+  const [sessaoAtual, setSessaoAtual] = useState('Inicio');
 
   useEffect(() => {
     setTiposConsultas(tiposConsultas);
   }, []);
+
+  useEffect(() => {
+    const PrimeiraImpressao = document.querySelector('#PrimeiraImpressao');
+    if (!PrimeiraImpressao) return;
+    const rect = PrimeiraImpressao.getBoundingClientRect();
+    setInicionPosicaoY(rect.top + window.scrollY - 90);
+
+    const Sobre = document.querySelector('#Sobre');
+    if (!Sobre) return;
+    const rectSobre = Sobre.getBoundingClientRect();
+    setSobrePosicaoY(rectSobre.top + window.scrollY - 90);
+
+    const Servicos = document.querySelector('#Servicos');
+    if (!Servicos) return;
+    const rectServicos = Servicos.getBoundingClientRect();
+    setServicoesPosicaoY(rectServicos.top + window.scrollY - 90);
+
+    const Agenda = document.querySelector('#Agenda');
+    if (!Agenda) return;
+    const rectAgenda = Agenda.getBoundingClientRect();
+    setAgendaPosicaoY(rectAgenda.top + window.scrollY - 90);
+
+    const Depoimentos = document.querySelector('#Depoimentos');
+    if (!Depoimentos) return;
+    const rectDepoimentos = Depoimentos.getBoundingClientRect();
+    setDepoimentosPosicaoY(rectDepoimentos.top + window.scrollY - 90);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      let novaSessao = '';
+
+      if (scrollY >= inicionPosicaoY && scrollY < sobrePosicaoY) {
+        novaSessao = 'Inicio';
+      } else if (scrollY >= sobrePosicaoY && scrollY < servicoesPosicaoY) {
+        novaSessao = 'Sobre';
+      } else if (scrollY >= servicoesPosicaoY && scrollY < agendaPosicaoY) {
+        novaSessao = 'Serviços';
+      } else if (scrollY >= agendaPosicaoY && scrollY < depoimentosPosicaoY) {
+        novaSessao = 'Agenda';
+      } else if (scrollY >= depoimentosPosicaoY) {
+        return;
+      }
+
+      if (novaSessao !== sessaoAtual) {
+        if (novaSessao === '') return;
+        setSessaoAtual(novaSessao);
+        console.log(novaSessao);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [inicionPosicaoY, sobrePosicaoY, servicoesPosicaoY, agendaPosicaoY, depoimentosPosicaoY, sessaoAtual]);
 
   return (
     <>
@@ -94,23 +159,47 @@ export function Portifolio() {
         </div>
         <div className={`md:ms-auto overflow-hidden transition-all duration-500 ${menuExpanded ? 'max-h-96 my-4' : 'max-h-0 md:max-h-96'}`}>
           <nav className={`flex flex-col md:flex-row md:gap-4 gap-2`}>
-            <a href="#PrimeiraImpressao" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+            <a id='PiB' href="#PrimeiraImpressao" className={`${sessaoAtual == 'Inicio' ? 'text-creme bg-castanho_rosado' : 'text-castanho_rosado bg-creme'} text-xl px-2 py-1 border-2 border-castanho_rosado rounded-full flex flex-row items-center gap-2 hover:font-bold`}
+              onClick={(e) => {
+                e.preventDefault();
+                const section = document.querySelector('#PrimeiraImpressao');
+                const offset = 80; // Ajuste o deslocamento conforme necessário
+                const sectionTop = (section?.getBoundingClientRect()?.top ?? 0) + window.scrollY; 
+                window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); 
+              }}
+            >
               <i className="fa-solid fa-home text-sm"></i>
               <p className='text-sm'>Inicio</p>
             </a>
-            <a href="#Sobre" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+            <a id='SoB' href="#Sobre" className={`${sessaoAtual == 'Sobre' ? 'text-creme bg-castanho_rosado' : 'text-castanho_rosado bg-creme'} text-xl px-2 py-1 border-2 border-castanho_rosado rounded-full flex flex-row items-center gap-2 hover:font-bold`}
+              onClick={(e) => {
+                e.preventDefault();
+                const section = document.querySelector('#Sobre');
+                const offset = 80; // Ajuste o deslocamento conforme necessário
+                const sectionTop = (section?.getBoundingClientRect()?.top ?? 0) + window.scrollY; 
+                window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); 
+              }}
+            >
               <i className="fa-solid fa-user text-sm"></i>
               <p className='text-sm'>Sobre</p>
             </a>
-            <a href="#Servicos" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+            <a id='SeB' href="#Servicos" className={`${sessaoAtual == 'Serviços' ? 'text-creme bg-castanho_rosado' : 'text-castanho_rosado bg-creme'} text-xl px-2 py-1 border-2 border-castanho_rosado rounded-full flex flex-row items-center gap-2 hover:font-bold`}
+              onClick={(e) => {
+                e.preventDefault();
+                const section = document.querySelector('#Servicos');
+                const offset = 80; // Ajuste o deslocamento conforme necessário
+                const sectionTop = (section?.getBoundingClientRect()?.top ?? 0) + window.scrollY; 
+                window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); 
+              }}
+            >
               <i className="fa-solid fa-hands-praying text-sm"></i>
               <p className='text-sm'>Serviços</p>
             </a>
-            <a href="/agendamento" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+            <a id='AgB' href="/agendamento" className={`${sessaoAtual == 'Agenda' ? 'text-creme bg-castanho_rosado' : 'text-castanho_rosado bg-creme'} text-xl px-2 py-1 border-2 border-castanho_rosado rounded-full flex flex-row items-center gap-2 hover:font-bold`}>
               <i className="fa-solid fa-calendar-check text-sm"></i>
               <p className='text-sm'>Agendamento</p>
             </a>
-            <a href="#Avaliacoes" className="text-castanho_rosado text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+            <a id='AvB' href='https://www.instagram.com/stories/highlights/18006084224084045/' className={`${sessaoAtual == 'Depoimentos' ? 'text-creme bg-castanho_rosado' : 'text-castanho_rosado bg-creme'} text-xl px-2 py-1 border-2 border-castanho_rosado rounded-full flex flex-row items-center gap-2 hover:font-bold`}>
               <i className="fa-solid fa-star text-sm"></i>
               <p className='text-sm'>Avaliações</p>
             </a>
@@ -149,11 +238,11 @@ export function Portifolio() {
                       const sectionTop = section?.getBoundingClientRect()?.top ?? 0 + window.scrollY; // Posição da seção em relação ao topo
                       window.scrollTo({ top: sectionTop - offset, behavior: 'smooth' }); // Rolagem suave com deslocamento
                     }}
-                    className='flex flex-row items-end border-b-2 border-black gap-1'>
+                    className='flex flex-row items-end border-0 border-black gap-1 px-2 rounded-full hover:scale-105'>
                     <i className={`${tipoConsulta.icone} text-sm`}></i>
                     <p className='text-sm'>{tipoConsulta.nome}</p>
+                    <i className="fa-solid fa-caret-right text-base"></i>
                   </a>
-                  <i className="fa-solid fa-caret-right text-base"></i>
                 </div>
               ))}
             </div>
@@ -238,7 +327,7 @@ export function Portifolio() {
           </div>
         </section>
         {/* Agenda */}
-        <section className="pt-16 bg-tostado_claro w-full flex flex-col items-center pb-16">
+        <section id='Agenda' className="pt-16 bg-tostado_claro w-full flex flex-col items-center pb-16">
           <div className="mb-8">
             <h2 className="text-castanho_rosado text-4xl font-bold font-dancing text-center leading-tight">
               Agende a sua primeira conversa
@@ -258,7 +347,7 @@ export function Portifolio() {
           </div>
         </section>
         {/* Avaliacoes */}
-        <section className="bg-creme w-full flex flex-col items-center py-16">
+        <section id='Depoimentos' className="bg-creme w-full flex flex-col items-center py-16">
           <div className="mb-8">
             <h2 className="text-castanho_rosado text-4xl font-bold font-dancing text-center leading-tight">
               Depoimentos
