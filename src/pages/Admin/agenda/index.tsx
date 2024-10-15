@@ -264,8 +264,16 @@ export function Agenda() {
     });
   }
 
+  function validate() {
+    localStorage.getItem('token') ? '' : location.href = '/'
+  }
+
   useEffect(() => {
     clientesAgenda();
+  }, []);
+
+  useEffect(() => {
+    validate()
   }, []);
 
   useEffect(() => {

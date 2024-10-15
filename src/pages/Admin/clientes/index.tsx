@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import MySpaceNavbar from '../../../components/mySpaceNavbar';
 import useSpeechToText from 'react-hook-speech-to-text';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Clinte {
   consultaHoje: string;
@@ -51,11 +52,17 @@ export function Clientes() {
     const [idCliente, setIdCliente] = useState(0);
 
     const [textoInicial, setTextoInicial] = useState('');
-    const {error, interimResult, isRecording, results, startSpeechToText, stopSpeechToText,
+    const {
+      error,
+      interimResult,
+      isRecording,
+      results,
+      startSpeechToText,
+      stopSpeechToText,
     } = useSpeechToText({
-      continuous: true,
-      timeout: 2000,
-      useLegacyResults: false
+      continuous: true, // Permite continuar gravando até parar manualmente
+      timeout: 2000,    // Tempo de inatividade antes de parar
+      useLegacyResults: false,
     });
 
     function handleExpand(id: number, openClose: boolean) {
@@ -156,7 +163,7 @@ export function Clientes() {
           setHistConsultas(data.body.realizadas)
         })
     }
-    // Testar
+
     const cadastraCliente = () => {
       if (!nomeNovoCliente || !recorrenciaNovoCliente) {
         setMessage({"message":"Preencha todos os campos", "type":"danger"})
@@ -188,7 +195,7 @@ export function Clientes() {
           getCliente()
         })
     }
-    //Testar
+
     const atualizarConsulta = () => {
       fetch(import.meta.env.VITE_API+"/prontuario", {
         method: "POST",
@@ -215,7 +222,7 @@ export function Clientes() {
           setConsultaDescModal(false)
         })
     }
-    //Testar
+
     const atualizarCliente = (id: number) => {
       fetch(import.meta.env.VITE_API+"/cliente/atualizar", {
         method: "POST",
@@ -242,7 +249,7 @@ export function Clientes() {
           setEditingInfos(false)
         })
     }
-    //Testar
+
     const deletarCliente = () => {
       fetch(import.meta.env.VITE_API+"/cliente/cadastro/"+ clienteIdToDelete, {
         method: "PUT",
@@ -264,6 +271,22 @@ export function Clientes() {
         })
     }
 
+    function comecarGravacao() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(stream) {
+          console.log("Permissão concedida!");
+          startSpeechToText();
+        })
+        .catch(function(err) {
+          console.error("Permissão negada ou erro:", err);
+          toast.error("Permissão negada ou erro:", err);
+        });
+    }
+
+    function validate() {
+      localStorage.getItem('token') ? '' : location.href = '/'
+    }
+
     useEffect(() => {
       if (consutaDescModal || adicaoModal || deleteModal) {
         document.body.style.overflow = 'hidden';
@@ -279,12 +302,16 @@ export function Clientes() {
       getCliente()
     }, []);
 
+    useEffect(() => {
+      validate()
+    }, []);
+
     useEffect(() =>{
       console.log(results)
       console.log(results.length)
-      let textoCompleto = results.map(function(result) {
-        return result.transcript
-      })
+      // let textoCompleto = results.map(function(result) {
+      //   return result.transcript
+      // })
       if (results.length > 0)
         setDescricaoForModal(textoInicial + " " + results[results.length-1].transcript)
     },[results])
@@ -293,9 +320,18 @@ export function Clientes() {
       setTextoInicial(descricaoForModal)
     },[descricaoForModal])
 
+    useEffect(() => {
+      console.log('isRecording:', isRecording);
+    }, [isRecording]);
+
+    if (error) {
+      console.error("Error with speech recognition:", error);
+    }
+
     return (
         <>
           <MySpaceNavbar />
+          <ToastContainer />
           <p className='hidden'>{message.message}</p>
           <main className={`bg-[#D4B8A3] w-full min-h-screen flex flex-col pt-32 px-4 lg:px-16 pb-8`}>
             <div className='grid grid-cols-3'>
@@ -466,11 +502,23 @@ export function Clientes() {
               </div>
               {editingConsulta && (
                 <div className='mt-4'>
-                  {(isRecording)?
-                    <i className="fas fa-microphone text-castanho_rosado text-2xl cursor-pointer" onClick={() => stopSpeechToText()}></i>
-                    :
-                    <i className="fas fa-microphone-slash text-castanho_rosado text-2xl cursor-pointer" onClick={() => startSpeechToText()}></i>
-                  }
+                  {(isRecording) ? (
+                    <i
+                      className="fas fa-microphone text-castanho_rosado text-2xl cursor-pointer"
+                      onClick={() => {
+                        console.log('Stopping recording');
+                        stopSpeechToText();
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fas fa-microphone-slash text-castanho_rosado text-2xl cursor-pointer"
+                      onClick={() => {
+                        console.log('Starting recording');
+                        comecarGravacao();
+                      }}
+                    ></i>
+                  )}
                 </div>
               )}
               <div className={`mt-${editingConsulta ? '0' : '4'} flex-1 overflow-hidden`}>

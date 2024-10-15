@@ -22,7 +22,7 @@ export default function MySpaceNavbar() {
                   {/* <a className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
                       <div className='flex w-6 h-6 bg-creme rounded-full'></div>
                   </a> */}
-                  <a className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
+                  <a onClick={() => localStorage.removeItem('token')} href='/' className="text-castanho_rosado stroke-creme text-xl border-b-2 border-castanho_rosado flex flex-row items-center gap-2 hover:text-castanho_rosado hover:border-castanho_rosado hover:font-bold">
                       <i className="fa-solid fa-door-open text-lg"></i>
                       <p className='text-sm'>Logout</p>
                   </a>

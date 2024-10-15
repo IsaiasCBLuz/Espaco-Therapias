@@ -37,10 +37,11 @@ export function Login() {
           },
           credentials: "include"
         })
-          .then((response) => {
-            if (response.status == 200)
+          .then(async (response) => {
+            if (response.status == 200){
+              await localStorage.setItem('token', 'logado')
               location.href="/my-space/clientes"
-            else
+            } else
               return response.json()
           })
           .then((data) => {
