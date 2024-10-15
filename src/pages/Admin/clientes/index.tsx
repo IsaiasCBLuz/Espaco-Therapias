@@ -307,13 +307,19 @@ export function Clientes() {
     }, []);
 
     useEffect(() =>{
-      console.log(results)
-      console.log(results.length)
+      // console.log(results)
+      // console.log(results.length)
       // let textoCompleto = results.map(function(result) {
       //   return result.transcript
       // })
-      if (results.length > 0)
-        setDescricaoForModal(textoInicial + " " + results[results.length-1].transcript)
+      if (results.length > 0){
+        if (textoInicial == '' || textoInicial == null) {
+          setTextoInicial(results[results.length-1].transcript)
+        } else {
+          console.log(textoInicial)
+          setDescricaoForModal(textoInicial + " " + results[results.length-1].transcript)
+        }
+      }
     },[results])
   
     useEffect(() =>{
