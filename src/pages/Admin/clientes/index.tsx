@@ -251,7 +251,7 @@ export function Clientes() {
     }
 
     const deletarCliente = () => {
-      fetch(import.meta.env.VITE_API+"/cliente/cadastro/"+ clienteIdToDelete, {
+      fetch(import.meta.env.VITE_API+"/cliente/delete/"+ clienteIdToDelete, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -268,6 +268,8 @@ export function Clientes() {
           console.log(data)
           setDeleteModal(false)
           getCliente()
+        }).catch((error) => {
+          console.log(error)
         })
     }
 
@@ -601,12 +603,10 @@ export function Clientes() {
             <div className='flex flex-col bg-creme w-4/12 h-2/6 mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
                 <p id='ModalConsultaTitle' className='text-lg font-spectral'>Tem certeza que deseja excluir {clienteNameToDelete} de sua lista de clientes?</p>
-                <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'
-                  onClick={() => deletarCliente()}
-                ></i>
+                <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer' onClick={() => setDeleteModal(false)}></i>
               </div>
               <div className='w-full flex mt-auto'>
-                <button className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto'>
+                <button className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto' onClick={() => deletarCliente()}>
                   Excluir
                 </button>
               </div>
