@@ -252,7 +252,7 @@ export function Clientes() {
 
     const deletarCliente = () => {
       fetch(import.meta.env.VITE_API+"/cliente/cadastro/"+ clienteIdToDelete, {
-        method: "PUT",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json"
         },
@@ -600,7 +600,7 @@ export function Clientes() {
           <div className={`fixed inset-0 z-10 bg-[rgba(0,0,0,0.7)] ${deleteModal ? 'flex' : 'hidden'} justify-center items-center`}>
             <div className='flex flex-col bg-creme w-4/12 h-2/6 mx-auto rounded-xl border-4 border-castanho_rosado p-4'>
               <div className='flex flex-row'>
-                <p id='ModalConsultaTitle' className='text-lg font-spectral'>Tem certeza que deseja excluir {clienteNameToDelete} de sua lista de clientes?</p>
+                <p id='ModalConsultaTitle' className='text-lg font-spectral'>Tem certeza que deseja arquivar <b>{clienteNameToDelete}</b> de sua lista de clientes?</p>
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'
                   onClick={() => deletarCliente()}
                 ></i>
