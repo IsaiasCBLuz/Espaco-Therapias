@@ -607,7 +607,7 @@ export function Clientes() {
               </div>
               <div className='w-full flex mt-auto'>
                 <button onClick={() => deletarCliente()} className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto'>
-                  Excluir
+                  Arquivar cliente
                 </button>
               </div>
             </div>
