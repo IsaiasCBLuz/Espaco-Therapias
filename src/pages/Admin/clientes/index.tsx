@@ -606,10 +606,8 @@ export function Clientes() {
                 <i className='fas fa-times text-castanho_rosado text-xl ml-auto cursor-pointer'></i>
               </div>
               <div className='w-full flex mt-auto'>
-                <button className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto'
-                  onClick={() => deletarCliente()}
-                >
-                  Excluir
+                <button onClick={() => deletarCliente()} className='bg-castanho_rosado text-creme px-4 py-2 rounded-lg mt-4 hover:scale-105 mx-auto'>
+                  Arquivar cliente
                 </button>
               </div>
             </div>
